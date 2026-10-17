@@ -48,7 +48,7 @@ in
       "* merge=mergiraf"
     ];
 
-    settings.credential.helper = "!${pkgs.gh}/bin/gh auth git-credential";
+    settings.credential.helper = [ "" "!${pkgs.gh}/bin/gh auth git-credential" ];
 
     settings.core = {
       editor = "zed --wait";
