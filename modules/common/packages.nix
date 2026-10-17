@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   environment.systemPackages = with pkgs; [
     git
     gh
@@ -21,6 +22,7 @@
     gnused
     nmap
     gotestsum
+    kingfisher
 
     moreutils
     jq
@@ -33,6 +35,9 @@
 
     bun
     nodejs_26
+
+    nixd
+    nil
 
     rtk
     prek

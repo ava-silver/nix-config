@@ -2,7 +2,7 @@
 
 # PATH
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="$PATH:$BUN_INSTALL/bin"
 export PATH="$PATH:$HOME/.local/bin"
 [[ ! -d $HOME/.cargo/bin ]] || path+=($HOME/.cargo/bin)
 
@@ -68,15 +68,11 @@ alias gotest=gotestsum
 alias code=zed
 alias pis='pi --model openai-codex/gpt-5.6-sol --thinking medium'
 alias llm='llama serve -hf unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF:Q4_K_M'
-
+alias _=sudo
 # LS
 alias ls=lsd
 alias l=ls
-alias l.='ls -d .*'
-alias la='ls -A'
 alias ll='ls -lAh'
-alias L='ls -lathF'
-alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
 
 # URL
 alias urldecode="python3 -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))'"
