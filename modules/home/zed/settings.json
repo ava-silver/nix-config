@@ -1,0 +1,119 @@
+{
+  "tab_size": 2,
+  "languages": {
+    "Python": {
+      "tab_size": 4
+    },
+    "Nix": {
+      "language_servers": ["nixd", "!nil"],
+      "formatter": {
+        "external": {
+          "command": "nixfmt",
+          "arguments": ["--quiet", "--"]
+        }
+      }
+    }
+  },
+  "lsp": {
+    "nixd": {
+      "settings": {
+        "nixd": {
+          "nixpkgs": {
+            "expr": "import (builtins.getFlake \"nixpkgs\") { }"
+          },
+          "formatting": {
+            "command": ["nixfmt", "--quiet", "--"]
+          }
+        }
+      }
+    }
+  },
+  "edit_predictions": {
+    "mode": "eager"
+  },
+  "show_edit_predictions": false,
+  "diff_view_style": "unified",
+  "icon_theme": "Material Icon Theme",
+  "cli_default_open_behavior": "existing_window",
+  "project_panel": {
+    "dock": "left"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "agent": {
+    "notify_when_agent_waiting": "all_screens",
+    "thinking_display": "always_collapsed",
+    "button": true,
+    "dock": "right",
+    "terminal_init_command": "pi",
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "agent_servers": {
+    "pi-acp": {
+      "type": "registry"
+    },
+    "codex-acp": {
+      "type": "registry"
+    },
+    "claude-acp": {
+      "default_config_options": {
+        "model": "sonnet"
+      },
+      "type": "registry"
+    }
+  },
+  "git_panel": {
+    "dock": "right"
+  },
+  "session": {
+    "trust_all_worktrees": true
+  },
+  "terminal": {
+    "dock": "bottom",
+    "font_size": 12.0,
+    "font_family": "MonoLisa Nerd Font",
+    "cursor_shape": "bar",
+    "line_height": "standard",
+    "blinking": "on"
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "base_keymap": "VSCode",
+  "minimap": {
+    "show": "never"
+  },
+  "cursor_blink": true,
+  "confirm_quit": true,
+  "buffer_font_family": "MonoLisa Nerd Font",
+  "buffer_font_fallbacks": [
+    "FiraCode NF Retina",
+    "JetBrains Mono",
+    "Comic Mono Code",
+    "Consolas"
+  ],
+  "buffer_font_size": 15,
+  "ui_font_size": 16,
+  "file_types": {
+    "i3": ["**/.i3/config", "**/i3/config"],
+    "terraform": ["*.feature", ".tflint.hcl"],
+    "ocaml": ["*.ml"]
+  },
+  "colorize_brackets": true,
+  "auto_indent_on_paste": true,
+  "linked_edits": true,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Catppuccin Macchiato"
+  },
+  "instrumentation": {
+    "performance_profiler": { "enabled": true }
+  }
+}

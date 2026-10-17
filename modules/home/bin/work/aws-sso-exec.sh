@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+if (( $# == 0 )); then
+  echo "usage: aws-sso-exec <command> [args...]" >&2
+  exit 2
+fi
+profile=sso-serverless-sandbox-account-admin
+if ! AWS_PROFILE="$profile" AWS_SDK_LOAD_CONFIG=1 aws sts get-caller-identity >/dev/null 2>&1; then
+  aws sso login --profile "$profile" >/dev/null
+fi
+AWS_PROFILE="$profile" AWS_SDK_LOAD_CONFIG=1 exec "$@"

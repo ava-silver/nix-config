@@ -1,0 +1,25 @@
+{
+  "lsp": {
+    "nixd": {
+      "settings": {
+        "nixpkgs": {
+          "expr": "import (builtins.getFlake (\"git+file://\" + toString ./.)).inputs.nixpkgs { system = builtins.currentSystem; }"
+        },
+        "options": {
+          "nixos": {
+            "expr": "(builtins.getFlake (\"git+file://\" + toString ./.)).nixosConfigurations.pegasus.options",
+            "order": 1
+          },
+          "darwin": {
+            "expr": "(builtins.getFlake (\"git+file://\" + toString ./.)).darwinConfigurations.slate.options",
+            "order": 2
+          },
+          "home-manager": {
+            "expr": "(builtins.getFlake (\"git+file://\" + toString ./.)).darwinConfigurations.slate.options.home-manager.users.type.getSubOptions []",
+            "order": 3
+          }
+        }
+      }
+    }
+  }
+}

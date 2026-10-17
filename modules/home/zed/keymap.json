@@ -1,0 +1,46 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {}
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {}
+  },
+  {
+    "context": "Editor",
+    "unbind": {
+      "cmd-k p": "workspace::CopyPath"
+    }
+  },
+  {
+    "bindings": {
+      "ctrl-alt-cmd-c": "workspace::CopyRelativePath"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "cmd-z": ["terminal::SendText", "\u001bZ"]
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "alt-shift-f": "editor::Format",
+      "ctrl-l g": "editor::CopyPermalinkToLine"
+    }
+  },
+  {
+    "context": "Editor",
+    "unbind": {
+      "cmd-shift-i": "editor::Format"
+    }
+  },
+  {
+    "context": "Editor && extension == md",
+    "bindings": {
+      "ctrl-p": "markdown::OpenPreview"
+    }
+  }
+]
