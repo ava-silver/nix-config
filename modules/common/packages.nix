@@ -8,6 +8,7 @@
     difftastic
     mergiraf
 
+    just
     curl
     lsd
     zoxide
@@ -18,12 +19,17 @@
     gum
     bottom
     gnused
+    nmap
     gotestsum
 
+    moreutils
     jq
 
     uv
     ruff
+    pipx
+    ty
+    pyrefly
 
     bun
     nodejs_26

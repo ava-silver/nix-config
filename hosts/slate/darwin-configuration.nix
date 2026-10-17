@@ -5,6 +5,15 @@
     ../../modules/common/darwin.nix
   ];
 
+  homebrew = {
+    brews = [
+      "llama.cpp"
+    ];
+    casks = [
+      "bitwarden"
+    ];
+  };
+
   networking.hostName = "slate";
   system.primaryUser = "ava";
   users.users.ava.home = "/Users/ava";

@@ -14,6 +14,10 @@
     brews = [
       "kingfisher"
       "mq"
+      "colima"
+      "lima"
+      "docker"
+      "magic-wormhole"
     ];
     casks = [
       "ghostty"
@@ -22,6 +26,8 @@
       "raycast"
       "eul"
       "fluidvoice"
+      "firefox"
+      "android-commandlinetools"
     ];
   };
 }
