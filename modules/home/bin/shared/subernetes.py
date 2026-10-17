@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
+from collections.abc import Callable
 from re import sub
-from typing import Callable
 
 
 def translate_words(text: str, translate: Callable[[str], str]) -> str:
@@ -19,7 +19,7 @@ def un_subernetes_word(word: str) -> str:
     return (
         word
         if len(word) <= 2
-        else f"{word[0]}{'subernetes'[1:-1][:int(word[1:-1])]}{word[-1]}"
+        else f"{word[0]}{'subernetes'[1:-1][: int(word[1:-1])]}{word[-1]}"
     )
 
 
