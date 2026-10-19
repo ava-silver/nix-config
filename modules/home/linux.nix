@@ -38,6 +38,16 @@
       switch-applications = [ "<Super>Tab" ];
     };
 
+    "org/gnome/shell/keybindings".show-screenshot-ui = [
+      "<Shift><Super>s"
+      "Print"
+    ];
+
+    "org/gnome/settings-daemon/plugins/media-keys" = {
+      home = [ "<Super>e" ];
+      control-center = [ "<Super>i" ];
+    };
+
     "org/gnome/desktop/privacy" = {
       report-technical-problems = false;
       send-software-usage-stats = false;
