@@ -147,7 +147,13 @@ in
       ln -s ${zed-editor}/bin/zeditor $out/bin/zed
     '')
     bitwarden-desktop
-    spotify
+    # nixpkgs' wrapper unsets DISPLAY when NIXOS_OZONE_WL=1, forcing native Wayland where Spotify draws a blue Chromium title bar.
+    (symlinkJoin {
+      name = "spotify";
+      paths = [ spotify ];
+      nativeBuildInputs = [ makeWrapper ];
+      postBuild = "wrapProgram $out/bin/spotify --set NIXOS_OZONE_WL 0";
+    })
     tor-browser
     android-studio
     docker-compose
