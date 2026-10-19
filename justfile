@@ -1,7 +1,7 @@
 os   := `uname -s`
 user := `whoami`
 
-host := if user == "ava.silver" { "work" } else if os == "Linux" { "pegasus" } else { "slate" }
+host := if user == "ava.silver" { "work" } else if os == "Linux" { `hostname` } else { "slate" }
 
 _rebuild := if os == "Linux" { "nixos-rebuild" } else { "darwin-rebuild" }
 

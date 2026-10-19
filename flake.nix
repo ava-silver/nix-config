@@ -38,14 +38,16 @@
           home-manager.darwinModules.home-manager
         ];
       };
-      nixosConfigurations.pegasus = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/pegasus/configuration.nix
-          home-manager.nixosModules.home-manager
-          lix-module.nixosModules.default
-        ];
-      };
-
+      nixosConfigurations = nixpkgs.lib.genAttrs [ "pegasus" "phoenix" ] (
+        host:
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/${host}/configuration.nix
+            home-manager.nixosModules.home-manager
+            lix-module.nixosModules.lixFromNixpkgs
+          ];
+        }
+      );
     };
 }

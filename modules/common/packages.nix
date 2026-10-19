@@ -38,6 +38,7 @@
 
     nixd
     nil
+    nixfmt
 
     rtk
     prek
