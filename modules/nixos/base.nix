@@ -154,5 +154,13 @@ in
     sqlite
     vim
     llama-cpp
+
+    cargo
+    rustc
+    clippy
+    rustfmt
+    gcc
   ];
+
+  environment.variables.RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
 }

@@ -36,7 +36,6 @@
     bun
     nodejs_26
 
-    rustup
     rust-analyzer
     jinja-lsp
 

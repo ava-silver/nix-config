@@ -6,7 +6,6 @@
     ./shell
     ./bootstrap.nix
     ./pi.nix
-    ./rust.nix
   ];
 
   home.stateVersion = "25.05";
