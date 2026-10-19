@@ -41,6 +41,8 @@ in
   };
 
   time.timeZone = "America/New_York";
+
+  documentation.doc.enable = false;
   i18n.defaultLocale = "en_US.UTF-8";
 
   networking.networkmanager.enable = true;
