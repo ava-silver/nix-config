@@ -27,6 +27,7 @@
     moreutils
     jq
 
+    python315
     uv
     ruff
     pipx
