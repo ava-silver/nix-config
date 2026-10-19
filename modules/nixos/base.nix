@@ -130,6 +130,11 @@ in
     firefox
     ghostty
     zed-editor
+    # nixpkgs only ships `zeditor`; EDITOR, git and the worktree scripts call `zed`.
+    (runCommand "zed-alias" { } ''
+      mkdir -p $out/bin
+      ln -s ${zed-editor}/bin/zeditor $out/bin/zed
+    '')
     bitwarden-desktop
     slack
     spotify
