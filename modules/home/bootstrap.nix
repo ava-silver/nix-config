@@ -26,7 +26,9 @@ in
       systemd.user.services.bootstrap = {
         Unit = {
           Description = "First-run setup";
-          StartLimitIntervalSec = 0;
+          # Give up after 10 failed attempts in 10 minutes; the next login tries again.
+          StartLimitIntervalSec = 600;
+          StartLimitBurst = 10;
         };
         Service = {
           Type = "oneshot";
