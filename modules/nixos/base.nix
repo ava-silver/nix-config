@@ -144,7 +144,6 @@ in
       ln -s ${zed-editor}/bin/zeditor $out/bin/zed
     '')
     bitwarden-desktop
-    slack
     spotify
     tor-browser
     android-studio

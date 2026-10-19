@@ -57,7 +57,6 @@
         "dev.zed.Zed.desktop"
         "com.bitwarden.desktop.desktop"
         "spotify.desktop"
-        "slack.desktop"
       ];
     };
 
