@@ -64,6 +64,14 @@ in
   services.desktopManager.gnome.enable = true;
   services.xserver.xkb.layout = "us";
 
+  # GDM and GNOME Settings read the avatar from AccountsService, not from $HOME.
+  systemd.tmpfiles.rules = [
+    "d /var/lib/AccountsService/icons 0755 root root -"
+    "d /var/lib/AccountsService/users 0700 root root -"
+    "L+ /var/lib/AccountsService/icons/ava - - - - ${../home/images/profile.jpg}"
+    "f+ /var/lib/AccountsService/users/ava 0600 root root - [User]\\nIcon=/var/lib/AccountsService/icons/ava\\n"
+  ];
+
   environment.gnome.excludePackages = with pkgs; [
     epiphany
     gnome-console

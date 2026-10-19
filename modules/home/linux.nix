@@ -10,6 +10,12 @@
       font-antialiasing = "grayscale";
     };
 
+    "org/gnome/desktop/background" = {
+      picture-uri = "file://${./images/background.jpg}";
+      picture-uri-dark = "file://${./images/background.jpg}";
+      picture-options = "zoom";
+    };
+
     "org/gnome/desktop/wm/preferences".titlebar-font = "Comfortaa Bold 11";
 
     "org/gnome/desktop/peripherals/mouse" = {
