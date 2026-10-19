@@ -4,7 +4,6 @@
     ./git
     ./bin.nix
     ./shell
-    ./bootstrap.nix
     ./pi.nix
   ];
 

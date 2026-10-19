@@ -1,28 +1,36 @@
-{ pkgs, ... }@args:
+{ lib, pkgs, ... }@args:
 let
   isWork = args.isWork or false;
   configBranch = if isWork then "main" else "personal";
-in
-{
-  bootstrap.packages = [
+  path = lib.makeBinPath [
     pkgs.git
     pkgs.bun
+    pkgs.coreutils
   ];
+in
+{
+  # Idempotent and non-fatal: if offline, run `just switch` again once connected.
+  # The timeouts keep a first boot without network from stalling login.
+  home.activation.pi = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    (
+      export PATH=${path}:$PATH
+      agent="$HOME/.pi/agent"
 
-  bootstrap.steps = [
-    # Branch is only chosen at clone time; pi rewrites tracked files, so existing clones are left alone.
-    ''
-      if [[ ! -d "$HOME/.pi/agent/.git" ]]; then
-        git clone --branch ${configBranch} https://github.com/ava-silver/pi-config.git "$HOME/.pi/agent" || failed=1
+      # Branch is only chosen at clone time; pi rewrites tracked files, so existing clones are left alone.
+      if [[ ! -d "$agent/.git" ]]; then
+        $DRY_RUN_CMD timeout 120 git clone --branch ${configBranch} \
+          https://github.com/ava-silver/pi-config.git "$agent" \
+          || echo "pi: pi-config clone failed; switch again once online" >&2
       fi
-      if [[ -d "$HOME/.pi/agent/.git" && ! -d "$HOME/.pi/agent/extensions/node_modules" ]]; then
-        bash "$HOME/.pi/agent/setup.sh" || failed=1
+      if [[ -d "$agent/.git" && ! -d "$agent/extensions/node_modules" ]]; then
+        $DRY_RUN_CMD timeout 300 bash "$agent/setup.sh" \
+          || echo "pi: pi-config setup failed; switch again once online" >&2
       fi
-    ''
-    ''
+
       if [[ ! -d "$HOME/.bun/install/global/node_modules/@earendil-works/pi-coding-agent" ]]; then
-        bun install -g --ignore-scripts @earendil-works/pi-coding-agent || failed=1
+        $DRY_RUN_CMD timeout 300 bun install -g --ignore-scripts @earendil-works/pi-coding-agent \
+          || echo "pi: install failed; switch again once online" >&2
       fi
-    ''
-  ];
+    )
+  '';
 }
