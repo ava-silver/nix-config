@@ -36,13 +36,6 @@ in
         };
         Install.WantedBy = [ "default.target" ];
       };
-
-      # Re-run when `gh auth login` completes so the private clone follows without a rebuild.
-      systemd.user.paths.bootstrap = {
-        Unit.Description = "Re-run first-run setup after gh login";
-        Path.PathChanged = "%h/.config/gh/hosts.yml";
-        Install.WantedBy = [ "paths.target" ];
-      };
     })
 
     (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
