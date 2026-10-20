@@ -51,6 +51,9 @@ alias cp='cp -riv'
 alias mv='mv -iv'
 alias mkdir='mkdir -pv'
 alias less='less -FSRXc'
+# git defaults LESS to FRX when unset; -X skips the alternate screen, so the
+# mouse wheel can't scroll delta/less. Setting it (without X) restores that.
+export LESS=-FR
 alias wget='wget -c'
 alias cat=bat
 alias ccat='\cat'
