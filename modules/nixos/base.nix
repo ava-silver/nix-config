@@ -1,9 +1,4 @@
 { pkgs, ... }:
-let
-  localFonts = pkgs.runCommand "local-fonts" { } ''
-    install -Dm444 -t $out/share/fonts ${../home/fonts}/*
-  '';
-in
 {
   imports = [ ../common/packages.nix ];
 
@@ -139,12 +134,6 @@ in
 
   fonts = {
     enableDefaultPackages = true;
-    packages = with pkgs; [
-      noto-fonts
-      noto-fonts-cjk-sans
-      noto-fonts-color-emoji
-      localFonts
-    ];
     fontconfig.defaultFonts = {
       sansSerif = [
         "Comfortaa"

@@ -1,5 +1,18 @@
 { pkgs, ... }:
+let
+  localFonts = pkgs.runCommand "local-fonts" { } ''
+    install -Dm444 -t $out/share/fonts ${../home/fonts}/*
+  '';
+in
 {
+  # `fonts.packages` exists on both NixOS and nix-darwin (/Library/Fonts/Nix Fonts).
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-color-emoji
+    localFonts
+  ];
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   environment.systemPackages = with pkgs; [
     git

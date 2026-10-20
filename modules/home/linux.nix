@@ -99,40 +99,6 @@
     };
   };
 
-  programs.nixcord = {
-    enable = true;
-    discord.enable = false;
-    vesktop.enable = true;
-
-    quickCss = ''
-      /* google emojis */
-      @import url(https://mwittrien.github.io/BetterDiscordAddons/Themes/EmojiReplace/base/Google.css);
-
-      ::placeholder, body, button, input, select, textarea {
-        font-family: "Comfortaa";
-      }
-    '';
-
-    config = {
-      useQuickCss = true;
-      plugins = {
-        alwaysTrust.enable = true;
-        betterSettings.enable = true;
-        betterUploadButton.enable = true;
-        clientTheme.enable = true;
-        experiments.enable = true;
-        fixSpotifyEmbeds.enable = true;
-        fixYoutubeEmbeds.enable = true;
-        noTrack.enable = true;
-        openInApp.enable = true;
-        petpet.enable = true;
-        readAllNotificationsButton.enable = true;
-        relationshipNotifier.enable = true;
-        serverInfo.enable = true;
-      };
-    };
-  };
-
   gtk = {
     enable = true;
     gtk4.theme = null;

@@ -29,12 +29,16 @@
       nixcord,
       ...
     }:
+    let
+      sharedHomeModules = [ nixcord.homeModules.nixcord ];
+    in
     {
       darwinConfigurations.slate = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
           ./hosts/slate/darwin-configuration.nix
           home-manager.darwinModules.home-manager
+          { home-manager.sharedModules = sharedHomeModules; }
         ];
       };
       darwinConfigurations.work = nix-darwin.lib.darwinSystem {
@@ -42,6 +46,7 @@
         modules = [
           ./hosts/work/darwin-configuration.nix
           home-manager.darwinModules.home-manager
+          { home-manager.sharedModules = sharedHomeModules; }
         ];
       };
       nixosConfigurations = nixpkgs.lib.genAttrs [ "pegasus" "phoenix" ] (
@@ -51,7 +56,7 @@
           modules = [
             ./hosts/${host}/configuration.nix
             home-manager.nixosModules.home-manager
-            { home-manager.sharedModules = [ nixcord.homeModules.nixcord ]; }
+            { home-manager.sharedModules = sharedHomeModules; }
             lix-module.nixosModules.lixFromNixpkgs
           ];
         }

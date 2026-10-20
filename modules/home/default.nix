@@ -26,4 +26,43 @@
 
   xdg.configFile."zed/settings.json".source = ./zed/settings.json;
   xdg.configFile."zed/keymap.json".source = ./zed/keymap.json;
+
+  # Vesktop (not stock Discord) so Linux and macOS share one config. Vesktop
+  # updates Vencord itself; Nix only manages the settings.
+  programs.nixcord = {
+    enable = true;
+    discord.enable = false;
+    vesktop = {
+      enable = true;
+      useSystemVencord = false;
+    };
+
+    quickCss = ''
+      /* google emojis */
+      @import url(https://mwittrien.github.io/BetterDiscordAddons/Themes/EmojiReplace/base/Google.css);
+
+      ::placeholder, body, button, input, select, textarea {
+        font-family: "Comfortaa";
+      }
+    '';
+
+    config = {
+      useQuickCss = true;
+      plugins = {
+        alwaysTrust.enable = true;
+        betterSettings.enable = true;
+        betterUploadButton.enable = true;
+        clientTheme.enable = true;
+        experiments.enable = true;
+        fixSpotifyEmbeds.enable = true;
+        fixYoutubeEmbeds.enable = true;
+        noTrack.enable = true;
+        openInApp.enable = true;
+        petpet.enable = true;
+        readAllNotificationsButton.enable = true;
+        relationshipNotifier.enable = true;
+        serverInfo.enable = true;
+      };
+    };
+  };
 }
