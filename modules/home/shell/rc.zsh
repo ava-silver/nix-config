@@ -41,6 +41,11 @@ if [[ $OSTYPE == darwin* ]]; then
   }
 fi
 
+if [[ $OSTYPE == linux* ]]; then
+  alias open=xdg-open
+  alias xclip=wl-copy
+fi
+
 # General
 alias cp='cp -riv'
 alias mv='mv -iv'

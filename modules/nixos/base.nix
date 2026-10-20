@@ -119,6 +119,24 @@ in
   };
   services.flatpak.enable = true;
 
+  # Lets prebuilt binaries (uv Pythons, rustup, Android SDK, bun packages) run.
+  programs.nix-ld.enable = true;
+
+  # Udev rules for Logitech receivers, plus the Solaar GUI.
+  hardware.logitech.wireless = {
+    enable = true;
+    enableGraphical = true;
+  };
+
+  # Keep the onboard codec awake to avoid pops after idle.
+  boot.extraModprobeConfig = "options snd_hda_intel power_save=0";
+
+  i18n.inputMethod = {
+    enable = true;
+    type = "ibus";
+    ibus.engines = with pkgs.ibus-engines; [ libpinyin ];
+  };
+
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs; [
@@ -155,10 +173,14 @@ in
       postBuild = "wrapProgram $out/bin/spotify --set NIXOS_OZONE_WL 0";
     })
     tor-browser
+    monero-gui
+    discord
+    zoom-us
+    prismlauncher
+    lutris
     android-studio
     docker-compose
     android-tools
-    solaar
     mpv
     celluloid
 
@@ -168,6 +190,8 @@ in
     gnomeExtensions.gsconnect
     gnomeExtensions.clipboard-indicator
     gnomeExtensions.blur-my-shell
+    gnomeExtensions.caffeine
+    gnomeExtensions.rounded-window-corners-reborn
 
     wl-clipboard
     xdg-utils

@@ -16,7 +16,15 @@
       picture-options = "zoom";
     };
 
-    "org/gnome/desktop/wm/preferences".titlebar-font = "Comfortaa Bold 11";
+    "org/gnome/desktop/wm/preferences" = {
+      titlebar-font = "Comfortaa Bold 11";
+      button-layout = "appmenu:minimize,maximize,close";
+    };
+
+    "org/gnome/desktop/input-sources".sources = [
+      (lib.hm.gvariant.mkTuple [ "xkb" "us" ])
+      (lib.hm.gvariant.mkTuple [ "ibus" "libpinyin" ])
+    ];
 
     "org/gnome/desktop/peripherals/mouse" = {
       natural-scroll = false;
@@ -46,6 +54,15 @@
     "org/gnome/settings-daemon/plugins/media-keys" = {
       home = [ "<Super>e" ];
       control-center = [ "<Super>i" ];
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal/"
+      ];
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal" = {
+      name = "terminal";
+      command = "ghostty";
+      binding = "<Super>t";
     };
 
     "org/gnome/desktop/privacy" = {
@@ -59,6 +76,8 @@
         "gsconnect@andyholmes.github.io"
         "clipboard-indicator@tudmotu.com"
         "blur-my-shell@aunetx"
+        pkgs.gnomeExtensions.caffeine.extensionUuid
+        pkgs.gnomeExtensions.rounded-window-corners-reborn.extensionUuid
       ];
       favorite-apps = [
         "firefox.desktop"

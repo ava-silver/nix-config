@@ -4,24 +4,40 @@
     "bindings": {}
   },
   {
+    "context": "os == linux && Workspace",
+    "bindings": {
+      "ctrl-r": "workspace::ToggleRightDock"
+    },
+    "unbind": {
+      "ctrl-r": "projects::OpenRecent"
+    }
+  },
+  {
     "context": "Editor && vim_mode == insert",
     "bindings": {}
   },
   {
-    "context": "Editor",
+    "context": "os == macos && Editor",
     "unbind": {
       "cmd-k p": "workspace::CopyPath"
     }
   },
   {
+    "context": "os == macos && Workspace",
     "bindings": {
       "ctrl-alt-cmd-c": "workspace::CopyRelativePath"
     }
   },
   {
-    "context": "Terminal",
+    "context": "os == macos && Terminal",
     "bindings": {
       "cmd-z": ["terminal::SendText", "\u001bZ"]
+    }
+  },
+  {
+    "context": "os == linux && Terminal",
+    "bindings": {
+      "ctrl-shift-z": ["terminal::SendText", "\u001bZ"]
     }
   },
   {
@@ -32,7 +48,7 @@
     }
   },
   {
-    "context": "Editor",
+    "context": "os == macos && Editor",
     "unbind": {
       "cmd-shift-i": "editor::Format"
     }
