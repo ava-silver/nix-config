@@ -9,6 +9,11 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixcord = {
+      url = "github:4evy/nixcord";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     lix-module = {
       url = "git+https://git.lix.systems/lix-project/nixos-module";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,6 +26,7 @@
       nixpkgs,
       home-manager,
       lix-module,
+      nixcord,
       ...
     }:
     {
@@ -45,6 +51,7 @@
           modules = [
             ./hosts/${host}/configuration.nix
             home-manager.nixosModules.home-manager
+            { home-manager.sharedModules = [ nixcord.homeModules.nixcord ]; }
             lix-module.nixosModules.lixFromNixpkgs
           ];
         }

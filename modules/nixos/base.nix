@@ -174,7 +174,6 @@ in
     })
     tor-browser
     monero-gui
-    discord
     zoom-us
     prismlauncher
     lutris
