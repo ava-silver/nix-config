@@ -7,4 +7,5 @@
   ];
 
   networking.hostName = "pegasus";
+  time.hardwareClockInLocalTime = true;
 }

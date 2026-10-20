@@ -34,6 +34,7 @@ in
     bottom
     gnused
     nmap
+    magic-wormhole
     gotestsum
     kingfisher
 

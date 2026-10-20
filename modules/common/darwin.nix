@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 {
   system.defaults = {
     dock.autohide = true;
@@ -9,6 +9,9 @@
     NSGlobalDomain.AppleShowAllFiles = true;
     NSGlobalDomain.KeyRepeat = 1;
   };
+  # Appended so Nix tools win over Homebrew's leftover node/python/just/etc.
+  environment.systemPath = lib.mkOrder 1300 [ "/opt/homebrew/bin:/opt/homebrew/sbin" ];
+
   homebrew = {
     enable = true;
     brews = [
@@ -17,7 +20,6 @@
       "colima"
       "lima"
       "docker"
-      "magic-wormhole"
     ];
     casks = [
       "ghostty"
