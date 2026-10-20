@@ -84,7 +84,7 @@
         "org.gnome.Nautilus.desktop"
         "com.mitchellh.ghostty.desktop"
         "dev.zed.Zed.desktop"
-        "com.bitwarden.desktop.desktop"
+        "bitwarden.desktop"
         "spotify.desktop"
       ];
     };
