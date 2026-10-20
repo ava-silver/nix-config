@@ -40,6 +40,7 @@ in
 
     moreutils
     jq
+    fastfetch
 
     python315
     uv
