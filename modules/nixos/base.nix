@@ -117,11 +117,8 @@
   # Lets prebuilt binaries (uv Pythons, rustup, Android SDK, bun packages) run.
   programs.nix-ld.enable = true;
 
-  # Udev rules for Logitech receivers, plus the Solaar GUI.
-  hardware.logitech.wireless = {
-    enable = true;
-    enableGraphical = true;
-  };
+  hardware.logitech.wireless.enable = true;
+  programs.solaar.enable = true;
 
   # Keep the onboard codec awake to avoid pops after idle.
   boot.extraModprobeConfig = "options snd_hda_intel power_save=0";
