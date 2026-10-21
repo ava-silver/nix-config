@@ -9,6 +9,8 @@
   };
 
   nix.package = pkgs.lix;
+  # Drops the default root channels entry, which doesn't exist on a flake-only setup and makes Lix warn.
+  nix.nixPath = lib.mkForce [ "nixpkgs=flake:nixpkgs" ];
 
   system.defaults = {
     dock.autohide = true;
