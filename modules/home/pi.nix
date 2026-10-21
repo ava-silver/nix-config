@@ -31,6 +31,12 @@ in
           || echo "pi: pi-config setup failed; switch again once online" >&2
       fi
 
+      if [[ ! -d "$HOME/skills/.git" ]]; then
+        $DRY_RUN_CMD timeout 120 git clone \
+          https://github.com/ava-silver/skills.git "$HOME/skills" \
+          || echo "pi: skills clone failed; switch again once online" >&2
+      fi
+
       if [[ ! -d "$HOME/.bun/install/global/node_modules/@earendil-works/pi-coding-agent" ]]; then
         $DRY_RUN_CMD timeout 300 bun install -g --ignore-scripts @earendil-works/pi-coding-agent \
           || echo "pi: install failed; switch again once online" >&2
