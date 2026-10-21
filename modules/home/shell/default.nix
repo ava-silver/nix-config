@@ -1,23 +1,19 @@
 {
+  config,
   lib,
   pkgs,
   isWork,
   ...
 }:
 {
-  # Work: .zshrc stays mutable for IT-managed blocks, so rc.zsh loads from ~/.zshenv instead
-  # (interactive-only, so scripts don't get aliases or keychain lookups).
-  home.file.".zshenv" = lib.mkIf isWork {
-    text = ''
-      [[ -o interactive ]] || return
-      source ${./rc.zsh}
-    '';
-  };
-
-  programs.zsh = lib.mkIf (!isWork) {
+  programs.zsh = {
     enable = true;
 
+    # Work: ZDOTDIR moves the managed .zshrc aside so ~/.zshrc stays mutable for IT-managed blocks.
+    dotDir = lib.mkIf isWork "${config.xdg.configHome}/zsh";
+
     history = {
+      path = "${config.home.homeDirectory}/.zsh_history";
       size = 100000;
       save = 100000;
       extended = true;
@@ -53,12 +49,28 @@
       }
     ];
 
+    envExtra = lib.mkIf isWork ''
+      export VOLTA_HOME="$HOME/.volta"
+      export PATH="$VOLTA_HOME/bin:$HOME/.yarn/switch/bin:$PATH"
+      [[ ! -f $HOME/.cargo/env ]] || . "$HOME/.cargo/env"
+    '';
+
+    profileExtra = lib.mkIf isWork ''
+      [[ ! -f $HOME/.zprofile ]] || source $HOME/.zprofile
+    '';
+
     initContent = lib.mkMerge [
       (lib.mkBefore ''
         if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
           source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
         fi
       '')
+      # Before compinit, since the IT block extends fpath.
+      (lib.mkIf isWork (
+        lib.mkOrder 510 ''
+          [[ ! -f $HOME/.zshrc ]] || source $HOME/.zshrc
+        ''
+      ))
       ''
         source ${./rc.zsh}
         source ${./p10k.zsh}
@@ -69,6 +81,9 @@
 
         zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}'
       ''
+      (lib.mkIf isWork ''
+        source ${./work.zsh}
+      '')
     ];
   };
 }
