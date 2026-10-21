@@ -66,7 +66,6 @@ in
     nil
     nixfmt
 
-    rtk
     prek
   ];
 }
