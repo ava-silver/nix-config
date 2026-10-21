@@ -30,17 +30,23 @@
       ...
     }:
     let
-      sharedHomeModules = [ nixcord.homeModules.nixcord ];
+      homeManagerShared =
+        { isWork, ... }:
+        {
+          home-manager.sharedModules = [ nixcord.homeModules.nixcord ];
+          home-manager.extraSpecialArgs = { inherit isWork; };
+        };
     in
     {
       darwinConfigurations = nixpkgs.lib.genAttrs [ "slate" "work" ] (
         host:
         nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
+          specialArgs.isWork = host == "work";
           modules = [
             ./hosts/${host}/configuration.nix
             home-manager.darwinModules.home-manager
-            { home-manager.sharedModules = sharedHomeModules; }
+            homeManagerShared
           ];
         }
       );
@@ -48,10 +54,11 @@
         host:
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          specialArgs.isWork = false;
           modules = [
             ./hosts/${host}/configuration.nix
             home-manager.nixosModules.home-manager
-            { home-manager.sharedModules = sharedHomeModules; }
+            homeManagerShared
             lix-module.nixosModules.lixFromNixpkgs
           ];
         }

@@ -18,7 +18,6 @@ export FFF_ENABLE_HOME_SCAN=0
 
 if [[ $OSTYPE == darwin* ]]; then
   alias xclip=pbcopy
-  alias pinentry=pinentry-mac
   export HOMEBREW_NO_ENV_HINTS=1
   export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
   alias brewi="brew update && brew install"
@@ -103,14 +102,8 @@ python() {
   if [[ $# == 0 ]]; then ipython; else python3 "$@"; fi
 }
 
-install-hooks() {
-  command -v prek &>/dev/null || brew install prek
-  local hooks_path
-  hooks_path=$(git config --global core.hooksPath)
-  [[ -n "$hooks_path" ]] && git config --global --unset core.hooksPath
-  prek install
-  [[ -n "$hooks_path" ]] && git config --global core.hooksPath "$hooks_path"
-}
+# --force: work's global core.hooksPath (DD global hooks) still runs .git/hooks.
+alias install-hooks='prek install --force'
 
 awsopen() {
   open -a "Google Chrome" "https://console.aws.amazon.com/go/view?arn=$1"

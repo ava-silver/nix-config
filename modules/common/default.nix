@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  lib,
+  pkgs,
+  isWork,
+  ...
+}:
 let
   localFonts = pkgs.runCommand "local-fonts" { } ''
     install -Dm444 -t $out/share/fonts ${../../assets/fonts}/*
@@ -24,51 +29,55 @@ in
   };
   nix.optimise.automatic = true;
 
-  environment.systemPackages = with pkgs; [
-    git
-    gh
-    glab
-    delta
-    difftastic
-    mergiraf
+  environment.systemPackages =
+    with pkgs;
+    [
+      git
+      gh
+      glab
+      delta
+      difftastic
+      mergiraf
 
-    just
-    curl
-    lsd
-    zoxide
-    fzf
-    bat
-    rm-improved
-    ripgrep
-    gum
-    bottom
-    gnused
-    nmap
-    magic-wormhole
-    gotestsum
-    kingfisher
+      just
+      curl
+      lsd
+      zoxide
+      fzf
+      bat
+      rm-improved
+      ripgrep
+      gum
+      bottom
+      gnused
+      nmap
+      magic-wormhole
+      gotestsum
+      kingfisher
 
-    moreutils
-    jq
-    fastfetch
+      moreutils
+      jq
+      fastfetch
 
-    python315
-    uv
-    ruff
-    pipx
-    ty
-    pyrefly
+      python315
+      python3Packages.ipython
+      uv
+      ruff
+      pipx
+      ty
+      pyrefly
 
-    bun
-    nodejs_26
+      bun
 
-    rust-analyzer
-    jinja-lsp
+      rust-analyzer
+      jinja-lsp
 
-    nixd
-    nil
-    nixfmt
+      nixd
+      nil
+      nixfmt
 
-    prek
-  ];
+      prek
+    ]
+    # Work uses Volta, so repos can pin their own Node.
+    ++ lib.optional (!isWork) nodejs_26;
 }

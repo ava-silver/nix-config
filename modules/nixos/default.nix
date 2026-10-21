@@ -28,7 +28,6 @@
   services.openssh.enable = true;
 
   home-manager = {
-    extraSpecialArgs.isWork = false;
     useGlobalPkgs = true;
     users.ava.imports = [
       ../home
