@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
   imports = [ ../common ];
 
@@ -7,6 +7,8 @@
     Hour = 3;
     Minute = 15;
   };
+
+  nix.package = pkgs.lix;
 
   system.defaults = {
     dock.autohide = true;
