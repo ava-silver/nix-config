@@ -2,6 +2,8 @@
 {
   imports = [ ../common ];
 
+  nixpkgs.config.allowUnfreePredicate = pkg: lib.getName pkg == "discord";
+
   # Daily rather than the weekly default, so --delete-older-than 7d really means about 7 days.
   nix.gc.interval = {
     Hour = 3;

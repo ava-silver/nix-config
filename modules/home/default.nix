@@ -26,21 +26,19 @@
   xdg.configFile."zed/settings.json".source = ./zed/settings.json;
   xdg.configFile."zed/keymap.json".source = ./zed/keymap.json;
 
-  # Vesktop rather than Discord so Linux and macOS share one config; it updates Vencord itself.
   programs.nixcord = {
     enable = true;
-    discord.enable = false;
-    vesktop = {
-      enable = true;
-      useSystemVencord = false;
-    };
+    discord.vencord.enable = true;
 
     quickCss = ''
       /* google emojis */
       @import url(https://mwittrien.github.io/BetterDiscordAddons/Themes/EmojiReplace/base/Google.css);
 
-      ::placeholder, body, button, input, select, textarea {
-        font-family: "Comfortaa";
+      /* mocha (pink accent) */
+      @import url("https://catppuccin.github.io/discord/dist/catppuccin-mocha-pink.theme.css");
+
+      ::placeholder, body, button, input, select, textarea, div {
+          font-family: "Comfortaa" !important;
       }
     '';
 
