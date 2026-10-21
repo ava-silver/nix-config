@@ -51,7 +51,7 @@
 
     envExtra = lib.mkIf isWork ''
       export VOLTA_HOME="$HOME/.volta"
-      export PATH="$VOLTA_HOME/bin:$HOME/.yarn/switch/bin:$PATH"
+      export PATH="$VOLTA_HOME/bin:$HOME/.yarn/switch/bin:$PATH:$HOME/.local/bin"
       [[ ! -f $HOME/.cargo/env ]] || . "$HOME/.cargo/env"
     '';
 

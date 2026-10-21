@@ -7,7 +7,7 @@
     "direnv"
     "awscli"
     "aws-vault"
-    "terraform"
+    "tfenv"
     "kubectx"
     "atlassian/acli/acli"
     "azure-cli"

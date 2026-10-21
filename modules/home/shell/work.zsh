@@ -34,3 +34,6 @@ fi
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
+# Jamf only sources this from ~/.zprofile, so non-login shells would otherwise miss the Privileges sudo alias.
+[[ ! -f $HOME/.privilegesalias ]] || source $HOME/.privilegesalias

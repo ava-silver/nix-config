@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ./git
@@ -23,8 +28,11 @@
       keybind = ctrl+delete=text:\x1bd
     '';
 
-  xdg.configFile."zed/settings.json".source = ./zed/settings.json;
-  xdg.configFile."zed/keymap.json".source = ./zed/keymap.json;
+  # Out-of-store so settings changed in Zed write back to the repo; assumes the clone lives at ~/nix-config.
+  xdg.configFile."zed/settings.json".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/modules/home/zed/settings.json";
+  xdg.configFile."zed/keymap.json".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/modules/home/zed/keymap.json";
 
   programs.nixcord = {
     enable = true;
