@@ -2,6 +2,12 @@
 {
   imports = [ ../common ];
 
+  # Daily rather than the weekly default, so --delete-older-than 7d really means about 7 days.
+  nix.gc.interval = {
+    Hour = 3;
+    Minute = 15;
+  };
+
   system.defaults = {
     dock.autohide = true;
     dock.autohide-delay = 0.0;

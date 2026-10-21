@@ -14,6 +14,13 @@ in
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  nix.gc = {
+    automatic = true;
+    options = "--delete-older-than 7d";
+  };
+  nix.optimise.automatic = true;
+
   environment.systemPackages = with pkgs; [
     git
     gh
