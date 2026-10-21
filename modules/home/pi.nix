@@ -43,4 +43,26 @@ in
       fi
     )
   '';
+
+  # Personal machines only: the personal pi-config branch loads this provider from ~/repos.
+  # Runs after `pi` so bun and the pi install exist; same idempotent, non-fatal rules.
+  home.activation.piSpotifyProvider = lib.mkIf (!isWork) (
+    lib.hm.dag.entryAfter [ "pi" ] ''
+      (
+        export PATH=${path}:$PATH
+        provider="$HOME/repos/pi-spotify-provider"
+
+        if [[ ! -d "$provider/.git" ]]; then
+          $DRY_RUN_CMD mkdir -p "$HOME/repos"
+          $DRY_RUN_CMD timeout 120 git clone \
+            https://github.com/ava-silver/pi-spotify-provider.git "$provider" \
+            || echo "pi: spotify provider clone failed; switch again once online" >&2
+        fi
+        if [[ -d "$provider/.git" && ! -d "$provider/node_modules" ]]; then
+          (cd "$provider" && $DRY_RUN_CMD timeout 300 bun install --ignore-scripts) \
+            || echo "pi: spotify provider install failed; switch again once online" >&2
+        fi
+      )
+    ''
+  );
 }
