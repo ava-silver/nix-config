@@ -22,8 +22,14 @@
     };
 
     "org/gnome/desktop/input-sources".sources = [
-      (lib.hm.gvariant.mkTuple [ "xkb" "us" ])
-      (lib.hm.gvariant.mkTuple [ "ibus" "libpinyin" ])
+      (lib.hm.gvariant.mkTuple [
+        "xkb"
+        "us"
+      ])
+      (lib.hm.gvariant.mkTuple [
+        "ibus"
+        "libpinyin"
+      ])
     ];
 
     "org/gnome/desktop/peripherals/mouse" = {

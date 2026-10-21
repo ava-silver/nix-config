@@ -1,4 +1,9 @@
-{ lib, pkgs, isWork, ... }:
+{
+  lib,
+  pkgs,
+  isWork,
+  ...
+}:
 let
   configBranch = if isWork then "main" else "personal";
   path = lib.makeBinPath [

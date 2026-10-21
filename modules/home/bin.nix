@@ -1,35 +1,40 @@
-{ lib, pkgs, isWork, ... }:
+{
+  lib,
+  pkgs,
+  isWork,
+  ...
+}:
 let
   # Scripts that need a Nix store path use @varname@ as a placeholder.
   subs = {
     "@gh@" = "${pkgs.gh}";
   };
 
-  applySubstitutions = content:
-    builtins.replaceStrings
-      (builtins.attrNames subs)
-      (builtins.attrValues subs)
-      content;
+  applySubstitutions =
+    content: builtins.replaceStrings (builtins.attrNames subs) (builtins.attrValues subs) content;
 
-  makePkg = dir: filename:
+  makePkg =
+    dir: filename:
     let
       name = lib.pipe filename [
         (lib.removeSuffix ".sh")
         (lib.removeSuffix ".py")
       ];
       text = applySubstitutions (builtins.readFile (dir + "/${filename}"));
-    in pkgs.writeTextFile {
+    in
+    pkgs.writeTextFile {
       inherit name text;
       executable = true;
       destination = "/bin/${name}";
     };
 
-  pkgsFrom = dir:
-    let files = builtins.attrNames (lib.filterAttrs (_: v: v == "regular") (builtins.readDir dir));
-    in map (makePkg dir) files;
+  pkgsFrom =
+    dir:
+    let
+      files = builtins.attrNames (lib.filterAttrs (_: v: v == "regular") (builtins.readDir dir));
+    in
+    map (makePkg dir) files;
 in
 {
-  home.packages =
-    pkgsFrom ./bin/shared
-    ++ lib.optionals isWork (pkgsFrom ./bin/work);
+  home.packages = pkgsFrom ./bin/shared ++ lib.optionals isWork (pkgsFrom ./bin/work);
 }

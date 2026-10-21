@@ -1,17 +1,28 @@
-{ lib, pkgs, isWork, ... }:
+{
+  lib,
+  pkgs,
+  isWork,
+  ...
+}:
 let
-  commitScript    = pkgs.writeShellScript "git-commit"          (builtins.readFile ./scripts/commit.sh);
-  createScript    = pkgs.writeShellScript "git-create"          (builtins.readFile ./scripts/create.sh);
-  pullScript      = pkgs.writeShellScript "git-pull"            (builtins.readFile ./scripts/pull.sh);
-  cleanWorktrees  = pkgs.writeShellScript "git-clean-worktrees" (builtins.readFile ./scripts/clean-worktrees.sh);
-  deleteWorktree  = pkgs.writeShellScript "git-delete-worktree" (builtins.readFile ./scripts/delete-worktree.sh);
-  copyStackScript = pkgs.writeShellScript "git-copy-stack"      (builtins.readFile ./scripts/copy-stack.sh);
-  worktreeScript  = pkgs.writeShellScript "git-worktree"        (builtins.readFile ./scripts/worktree.sh);
+  commitScript = pkgs.writeShellScript "git-commit" (builtins.readFile ./scripts/commit.sh);
+  createScript = pkgs.writeShellScript "git-create" (builtins.readFile ./scripts/create.sh);
+  pullScript = pkgs.writeShellScript "git-pull" (builtins.readFile ./scripts/pull.sh);
+  cleanWorktrees = pkgs.writeShellScript "git-clean-worktrees" (
+    builtins.readFile ./scripts/clean-worktrees.sh
+  );
+  deleteWorktree = pkgs.writeShellScript "git-delete-worktree" (
+    builtins.readFile ./scripts/delete-worktree.sh
+  );
+  copyStackScript = pkgs.writeShellScript "git-copy-stack" (
+    builtins.readFile ./scripts/copy-stack.sh
+  );
+  worktreeScript = pkgs.writeShellScript "git-worktree" (builtins.readFile ./scripts/worktree.sh);
 in
 {
   home.packages = [
     (pkgs.writeShellScriptBin "is-graphite" (builtins.readFile ./scripts/is-graphite.sh))
-    (pkgs.writeShellScriptBin "git-ticket"  (builtins.readFile ./scripts/ticket.sh))
+    (pkgs.writeShellScriptBin "git-ticket" (builtins.readFile ./scripts/ticket.sh))
   ];
 
   programs.delta = {
@@ -29,7 +40,8 @@ in
     settings.user = {
       name = "Ava Silver";
       email = if isWork then "ava.silver@datadoghq.com" else "ava@avasilver.dev";
-    } // lib.optionalAttrs isWork {
+    }
+    // lib.optionalAttrs isWork {
       signingKey = "A58F15C1B3F896B9CAB9FD3E8A1F59A9B0DF37A4";
     };
 
@@ -46,7 +58,10 @@ in
       "* merge=mergiraf"
     ];
 
-    settings.credential.helper = [ "" "!${pkgs.gh}/bin/gh auth git-credential" ];
+    settings.credential.helper = [
+      ""
+      "!${pkgs.gh}/bin/gh auth git-credential"
+    ];
 
     settings.core = {
       editor = "zed --wait";
@@ -54,7 +69,8 @@ in
       # dirty status. Enable per-repo on reftable repos via `setup-reftable-perf`.
       fsmonitor = false;
       untrackedCache = false;
-    } // lib.optionalAttrs isWork {
+    }
+    // lib.optionalAttrs isWork {
       hooksPath = "/usr/local/dd/global_hooks";
     };
 
@@ -102,59 +118,62 @@ in
     ];
 
     settings.alias = {
-      a    = "add -A";
-      b    = "branch";
-      c    = "!${commitScript}";
-      nb   = "checkout -b";
-      ac   = ''!f() { git a && git c "$@"; }; f'';
-      cr   = "!${createScript}";
-      pr   = "!gh pr view --web";
-      cc   = ''!git commit -m "updated $(date)"'';
-      m    = "merge --no-edit";
+      a = "add -A";
+      b = "branch";
+      c = "!${commitScript}";
+      nb = "checkout -b";
+      ac = ''!f() { git a && git c "$@"; }; f'';
+      cr = "!${createScript}";
+      pr = "!gh pr view --web";
+      cc = ''!git commit -m "updated $(date)"'';
+      m = "merge --no-edit";
       main = "!git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'";
-      r    = "!git rebase $(git main)";
-      mm   = "!git m $(git main)";
-      mc   = "!git a && git merge --continue";
-      st   = "status";
-      sw   = "switch";
-      sm   = "!git sw $(git main)";
-      pl   = "!${pullScript}";
-      pu   = "push origin HEAD";
-      su   = "!git branch -u origin/$(git rev-parse --abbrev-ref HEAD)";
-      co   = "checkout";
-      rst  = "reset --hard HEAD";
+      r = "!git rebase $(git main)";
+      mm = "!git m $(git main)";
+      mc = "!git a && git merge --continue";
+      st = "status";
+      sw = "switch";
+      sm = "!git sw $(git main)";
+      pl = "!${pullScript}";
+      pu = "push origin HEAD";
+      su = "!git branch -u origin/$(git rev-parse --abbrev-ref HEAD)";
+      co = "checkout";
+      rst = "reset --hard HEAD";
       rstm = ''!f() { git checkout $(git main) -- "$@"; }; f'';
-      s    = ''!f() { git branch --format='%(refname:short)' | fzf --query="$1" --no-sort --height 20% | xargs git switch; }; f'';
-      sta  = "stash";
-      sp   = "stash pop";
-      unc  = "reset --soft HEAD~1";
-      d    = "diff --color-moved";
-      dt   = "-c diff.external=difft diff --color-moved";
-      dn   = "d --name-only";
-      dm   = "!git d $(git main)";
-      dmn  = "!git dn $(git main)";
-      dp   = "d HEAD^";
-      dpn  = "dp --name-only";
-      dh   = "d HEAD";
-      dhn  = "dh --name-only";
-      cf   = ''!git diff --name-only | uniq | xargs zed'';
-      lg   = "log --graph --no-merges --author=Ava --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all";
-      "cleanup-lock"        = ''!f() { lock=$(git rev-parse --git-path index.lock) || return; if [ -e "$lock" ]; then rm -v "$lock"; else echo "No index lock: $lock"; fi; }; f'';
-      l                     = "cleanup-lock";
-      standies              = "standup";
-      ticket                = "!git-ticket";
-      cln                   = "clean -fdx";
-      "cleanup-branches"    = ''!git b | grep -v $(git main) | xargs git b -D'';
-      cwt                   = "!${cleanWorktrees}";
-      dwt                   = "!${deleteWorktree}";
-      "trigger-ci"          = ''!f() { git commit --allow-empty -m "trigger ci" && git pu; }; f'';
-      "setup-reftable-perf" = ''!f() { test "$(git config --local --get extensions.refStorage)" = reftable || { echo 'not a reftable repository' >&2; return 1; }; git config --local core.fsmonitor true && git config --local core.untrackedCache true && echo 'fsmonitor + untrackedCache enabled'; }; f'';
-    } // lib.optionalAttrs isWork {
+      s = ''!f() { git branch --format='%(refname:short)' | fzf --query="$1" --no-sort --height 20% | xargs git switch; }; f'';
+      sta = "stash";
+      sp = "stash pop";
+      unc = "reset --soft HEAD~1";
+      d = "diff --color-moved";
+      dt = "-c diff.external=difft diff --color-moved";
+      dn = "d --name-only";
+      dm = "!git d $(git main)";
+      dmn = "!git dn $(git main)";
+      dp = "d HEAD^";
+      dpn = "dp --name-only";
+      dh = "d HEAD";
+      dhn = "dh --name-only";
+      cf = "!git diff --name-only | uniq | xargs zed";
+      lg = "log --graph --no-merges --author=Ava --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all";
+      "cleanup-lock" =
+        ''!f() { lock=$(git rev-parse --git-path index.lock) || return; if [ -e "$lock" ]; then rm -v "$lock"; else echo "No index lock: $lock"; fi; }; f'';
+      l = "cleanup-lock";
+      standies = "standup";
+      ticket = "!git-ticket";
+      cln = "clean -fdx";
+      "cleanup-branches" = "!git b | grep -v $(git main) | xargs git b -D";
+      cwt = "!${cleanWorktrees}";
+      dwt = "!${deleteWorktree}";
+      "trigger-ci" = ''!f() { git commit --allow-empty -m "trigger ci" && git pu; }; f'';
+      "setup-reftable-perf" =
+        ''!f() { test "$(git config --local --get extensions.refStorage)" = reftable || { echo 'not a reftable repository' >&2; return 1; }; git config --local core.fsmonitor true && git config --local core.untrackedCache true && echo 'fsmonitor + untrackedCache enabled'; }; f'';
+    }
+    // lib.optionalAttrs isWork {
       "copy-stack" = "!${copyStackScript}";
-      cs           = "copy-stack";
-      wt           = "!${worktreeScript}";
-      restack      = ''!f() { gt restack || pi 'fix the merge conflicts for the current gt restack, stage the fixes, then run gt continue'; }; f'';
-      sync         = "!gt s && gt ss";
+      cs = "copy-stack";
+      wt = "!${worktreeScript}";
+      restack = "!f() { gt restack || pi 'fix the merge conflicts for the current gt restack, stage the fixes, then run gt continue'; }; f";
+      sync = "!gt s && gt ss";
     };
   };
 }

@@ -1,4 +1,9 @@
-{ lib, pkgs, isWork, ... }:
+{
+  lib,
+  pkgs,
+  isWork,
+  ...
+}:
 {
   # Work: .zshrc stays mutable for IT-managed blocks, so rc.zsh loads from ~/.zshenv instead
   # (interactive-only, so scripts don't get aliases or keychain lookups).
