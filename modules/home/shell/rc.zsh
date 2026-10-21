@@ -1,12 +1,10 @@
 #!/usr/bin/env zsh
 
-# PATH
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$PATH:$BUN_INSTALL/bin"
 export PATH="$PATH:$HOME/.local/bin"
 [[ ! -d $HOME/.cargo/bin ]] || path+=($HOME/.cargo/bin)
 
-# Environment
 export LANG="en_US.UTF-8"
 export EDITOR="zed --wait"
 export DO_NOT_TRACK=true
@@ -46,7 +44,6 @@ if [[ $OSTYPE == linux* ]]; then
   alias xclip=wl-copy
 fi
 
-# General
 alias cp='cp -riv'
 alias mv='mv -iv'
 alias mkdir='mkdir -pv'
@@ -77,16 +74,14 @@ alias code=zed
 alias pis='pi --model openai-codex/gpt-5.6-sol --thinking medium'
 alias llm='llama serve -hf unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF:Q4_K_M'
 alias _=sudo
-# LS
+
 alias ls=lsd
 alias l=ls
 alias ll='ls -lAh'
 
-# URL
 alias urldecode="python3 -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))'"
 alias urlencode="python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1].strip(), safe=\"\"))'"
 
-# Kubernetes
 alias k=kubectl
 alias kgp='kubectl get pod'
 alias kbash='kbash --pod'
@@ -94,16 +89,13 @@ alias ktx=kubectx-switcher
 alias kns=kubens
 alias hd=hotdog
 
-# Terraform
 alias tf=terraform
 alias tfa='terraform apply -auto-approve'
 alias tfd='terraform destroy -auto-approve'
 alias tfr='terraform destroy -auto-approve && terraform apply -auto-approve'
 
-# Bazel
 alias gz='bzl run //:gazelle -- domains/cloud_platform/ && g ac gazelle && gt ss'
 
-# Bun
 alias bunup='(cd ~/.bun/install/global && bun update)'
 alias bunupdate=bunup
 

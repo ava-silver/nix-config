@@ -11,8 +11,8 @@
     };
 
     "org/gnome/desktop/background" = {
-      picture-uri = "file://${./images/background.jpg}";
-      picture-uri-dark = "file://${./images/background.jpg}";
+      picture-uri = "file://${../../assets/images/background.jpg}";
+      picture-uri-dark = "file://${../../assets/images/background.jpg}";
       picture-options = "zoom";
     };
 

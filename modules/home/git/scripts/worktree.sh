@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# symlink_local_files <repo_root> <wt_dir>
-# Symlinks local files and directories from repo_root into wt_dir, if present.
 symlink_local_files() {
     local repo_root="$1" wt_dir="$2"
     if [[ -f "$repo_root/AGENTS.local.md" ]]; then

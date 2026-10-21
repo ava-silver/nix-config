@@ -1,6 +1,5 @@
-{ lib, pkgs, ... }@args:
+{ lib, pkgs, isWork, ... }:
 let
-  isWork = args.isWork or false;
   configBranch = if isWork then "main" else "personal";
   path = lib.makeBinPath [
     pkgs.git

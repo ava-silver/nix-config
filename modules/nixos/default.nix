@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  imports = [ ../common/packages.nix ];
+  imports = [ ../common ];
 
   boot.loader = {
     systemd-boot = {
@@ -28,6 +28,7 @@
   services.openssh.enable = true;
 
   home-manager = {
+    extraSpecialArgs.isWork = false;
     useGlobalPkgs = true;
     users.ava.imports = [
       ../home
@@ -66,7 +67,7 @@
   systemd.tmpfiles.rules = [
     "d /var/lib/AccountsService/icons 0755 root root -"
     "d /var/lib/AccountsService/users 0700 root root -"
-    "L+ /var/lib/AccountsService/icons/ava - - - - ${../home/images/profile.jpg}"
+    "L+ /var/lib/AccountsService/icons/ava - - - - ${../../assets/images/profile.jpg}"
     "f+ /var/lib/AccountsService/users/ava 0600 root root - [User]\\nIcon=/var/lib/AccountsService/icons/ava\\n"
   ];
 
@@ -151,7 +152,7 @@
       ln -s ${zed-editor}/bin/zeditor $out/bin/zed
     '')
     bitwarden-desktop
-    # nixpkgs' wrapper unsets DISPLAY when NIXOS_OZONE_WL=1, forcing native Wayland where Spotify draws a blue Chromium title bar.
+    # Native Wayland (forced by NIXOS_OZONE_WL=1) gives Spotify a blue Chromium title bar, so opt it out.
     (symlinkJoin {
       name = "spotify";
       paths = [ spotify ];

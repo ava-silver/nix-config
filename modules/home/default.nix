@@ -16,7 +16,6 @@
       # macOS sizes are 72 dpi points, GTK's are 96 dpi, so 18 renders ~33% larger there
       font-size = 13
 
-      # Linux equivalent of the macOS super+z binding above
       keybind = ctrl+shift+z=text:\x1bZ
 
       # Word deletion, matching what option+backspace/delete send on macOS
@@ -27,8 +26,7 @@
   xdg.configFile."zed/settings.json".source = ./zed/settings.json;
   xdg.configFile."zed/keymap.json".source = ./zed/keymap.json;
 
-  # Vesktop (not stock Discord) so Linux and macOS share one config. Vesktop
-  # updates Vencord itself; Nix only manages the settings.
+  # Vesktop rather than Discord so Linux and macOS share one config; it updates Vencord itself.
   programs.nixcord = {
     enable = true;
     discord.enable = false;

@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   localFonts = pkgs.runCommand "local-fonts" { } ''
-    install -Dm444 -t $out/share/fonts ${../home/fonts}/*
+    install -Dm444 -t $out/share/fonts ${../../assets/fonts}/*
   '';
 in
 {

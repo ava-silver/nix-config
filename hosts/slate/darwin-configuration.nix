@@ -1,9 +1,6 @@
 { ... }:
 {
-  imports = [
-    ../../modules/common/packages.nix
-    ../../modules/common/darwin.nix
-  ];
+  imports = [ ../../modules/darwin ];
 
   homebrew = {
     brews = [
@@ -19,6 +16,7 @@
   users.users.ava.home = "/Users/ava";
   system.stateVersion = 5;
   home-manager = {
+    extraSpecialArgs.isWork = false;
     useGlobalPkgs = true;
     users.ava.imports = [ ../../modules/home ];
   };

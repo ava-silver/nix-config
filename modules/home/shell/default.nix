@@ -1,11 +1,7 @@
-{ lib, pkgs, ... }@args:
-let
-  isWork = args.isWork or false;
-in
+{ lib, pkgs, isWork, ... }:
 {
-  # Work: .zshrc stays mutable for IT-managed blocks. ~/.zshenv is sourced
-  # automatically by zsh for every invocation and is not touched by IT tools.
-  # The interactive guard keeps aliases and keychain lookups out of scripts.
+  # Work: .zshrc stays mutable for IT-managed blocks, so rc.zsh loads from ~/.zshenv instead
+  # (interactive-only, so scripts don't get aliases or keychain lookups).
   home.file.".zshenv" = lib.mkIf isWork {
     text = ''
       [[ -o interactive ]] || return

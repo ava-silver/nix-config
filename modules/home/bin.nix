@@ -1,9 +1,6 @@
-{ lib, pkgs, ... }@args:
+{ lib, pkgs, isWork, ... }:
 let
-  isWork = args.isWork or false;
-
   # Scripts that need a Nix store path use @varname@ as a placeholder.
-  # Add entries here when a new script needs one.
   subs = {
     "@gh@" = "${pkgs.gh}";
   };

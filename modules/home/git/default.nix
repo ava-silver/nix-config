@@ -1,7 +1,5 @@
-{ lib, pkgs, ... }@args:
+{ lib, pkgs, isWork, ... }:
 let
-  isWork = args.isWork or false;
-
   commitScript    = pkgs.writeShellScript "git-commit"          (builtins.readFile ./scripts/commit.sh);
   createScript    = pkgs.writeShellScript "git-create"          (builtins.readFile ./scripts/create.sh);
   pullScript      = pkgs.writeShellScript "git-pull"            (builtins.readFile ./scripts/pull.sh);
@@ -52,10 +50,8 @@ in
 
     settings.core = {
       editor = "zed --wait";
-      # gitstatus uses libgit2, which cannot parse the FSMN/UNTR index
-      # extensions written by fsmonitor/untrackedCache — causing stale dirty
-      # status on non-reftable repos. Enable per-repo for reftable repos via
-      # the `setup-reftable-perf` alias.
+      # libgit2 (gitstatus) can't parse the index extensions these write, leaving stale
+      # dirty status. Enable per-repo on reftable repos via `setup-reftable-perf`.
       fsmonitor = false;
       untrackedCache = false;
     } // lib.optionalAttrs isWork {
@@ -88,8 +84,7 @@ in
     };
 
     settings.index = lib.mkIf isWork {
-      # feature.manyFiles (set by some repo setup scripts) implies
-      # skipHash = true, which gitstatus/libgit2 cannot parse.
+      # feature.manyFiles implies skipHash = true, which libgit2 can't parse.
       skipHash = false;
     };
 

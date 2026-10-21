@@ -1,9 +1,6 @@
 { ... }:
 {
-  imports = [
-    ../../modules/common/packages.nix
-    ../../modules/common/darwin.nix
-  ];
+  imports = [ ../../modules/darwin ];
 
   homebrew.brews = [
     "withgraphite/tap/graphite"
@@ -14,9 +11,7 @@
   system.stateVersion = 5;
   users.users."ava.silver".home = "/Users/ava.silver";
   home-manager = {
-    extraSpecialArgs = {
-      isWork = true;
-    };
+    extraSpecialArgs.isWork = true;
     useGlobalPkgs = true;
     users."ava.silver".imports = [ ../../modules/home ];
   };
