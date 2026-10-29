@@ -12,6 +12,8 @@
     # Work: ZDOTDIR moves the managed .zshrc aside so ~/.zshrc stays mutable for IT-managed blocks.
     dotDir = lib.mkIf isWork "${config.xdg.configHome}/zsh";
 
+    autocd = true;
+
     history = {
       path = "${config.home.homeDirectory}/.zsh_history";
       size = 100000;
