@@ -78,6 +78,8 @@ in
 
       prek
     ]
-    # Work uses Volta, so repos can pin their own Node.
-    ++ lib.optional (!isWork) nodejs_26;
+    ++ lib.optionals (!isWork) [
+      nodejs_26
+      qbittorrent
+    ];
 }
