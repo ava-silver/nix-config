@@ -14,6 +14,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    nix-bun = {
+      url = "github:ryoppippi/nix-bun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     lix-module = {
       url = "git+https://git.lix.systems/lix-project/nixos-module";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -27,6 +31,7 @@
       home-manager,
       lix-module,
       nixcord,
+      nix-bun,
       ...
     }:
     let
@@ -36,6 +41,7 @@
           home-manager.sharedModules = [ nixcord.homeModules.nixcord ];
           home-manager.extraSpecialArgs = { inherit isWork; };
         };
+      bunOverlay.nixpkgs.overlays = [ nix-bun.overlays.default ];
     in
     {
       darwinConfigurations = nixpkgs.lib.genAttrs [ "slate" "work" ] (
@@ -47,6 +53,7 @@
             ./hosts/${host}/configuration.nix
             home-manager.darwinModules.home-manager
             homeManagerShared
+            bunOverlay
           ];
         }
       );
@@ -59,6 +66,7 @@
             ./hosts/${host}/configuration.nix
             home-manager.nixosModules.home-manager
             homeManagerShared
+            bunOverlay
             lix-module.nixosModules.lixFromNixpkgs
           ];
         }

@@ -91,6 +91,26 @@
         "url": "https://git.lix.systems/lix-project/nixos-module"
       }
     },
+    "nix-bun": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793527794,
+        "narHash": "sha256-ZCz0zE+Lgb3hBn+u3n39Txegdw3jI/SVkQjR+TjClh4=",
+        "owner": "ryoppippi",
+        "repo": "nix-bun",
+        "rev": "4170f2a531122ac75aa45d823bd69e6e9a77563f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryoppippi",
+        "repo": "nix-bun",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -207,6 +227,7 @@
       "inputs": {
         "home-manager": "home-manager",
         "lix-module": "lix-module",
+        "nix-bun": "nix-bun",
         "nix-darwin": "nix-darwin",
         "nixcord": "nixcord",
         "nixpkgs": "nixpkgs"
