@@ -116,7 +116,7 @@
     # Modifier-only shortcuts aren't supported on Linux, so dictation_hotkey keeps Hex's default.
     model = "parakeet_unified_en";
     language = "en";
-    settings.shortcut_mode = "hold";
+    settings = lib.importJSON ./hex/settings.json;
   };
 
   gtk = {

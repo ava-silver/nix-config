@@ -25,25 +25,6 @@
     NSGlobalDomain.AppleShowAllFiles = true;
     NSGlobalDomain.KeyRepeat = 1;
   };
-  home-manager.sharedModules = [
-    (
-      { lib, pkgs, ... }:
-      {
-        # The cask is installed by Homebrew; the CLI inside the app applies settings.
-        home.activation.hex = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          hex=/Applications/Hex.app/Contents/MacOS/hex
-          if [ -x "$hex" ]; then
-            run "$hex" settings apply ${
-              (pkgs.formats.json { }).generate "hex-settings.json" {
-                shortcut_mode = "hold";
-                dictation_hotkey = "right-command";
-              }
-            }
-          fi
-        '';
-      }
-    )
-  ];
 
   # Appended so Nix tools win over Homebrew's leftover node/python/just/etc.
   environment.systemPath = lib.mkOrder 1300 [ "/opt/homebrew/bin:/opt/homebrew/sbin" ];
