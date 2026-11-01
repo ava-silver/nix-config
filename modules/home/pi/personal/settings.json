@@ -9,6 +9,10 @@
   "theme": "catppuccin-frappe",
   "defaultThinkingLevel": "medium",
   "quietStartup": true,
+  "defaultTools": [
+    "+grep",
+    "+find"
+  ],
   "hideThinkingBlock": false,
   "packages": [
     "npm:pi-btw",
