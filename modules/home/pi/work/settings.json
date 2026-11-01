@@ -21,7 +21,6 @@
     "-extensions/ui-performance.ts"
   ],
   "skills": [
-    "~/skills/skills",
     "~/dd/claude-marketplace/serverless/skills",
     "~/dd/experimental/users/ava.silver/ssi/skills/"
   ],

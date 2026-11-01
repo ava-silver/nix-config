@@ -23,9 +23,6 @@
     "-extensions/spend.ts",
     "-extensions/trajectory/index.ts"
   ],
-  "skills": [
-    "~/skills/skills"
-  ],
   "defaultProvider": "spotify",
   "defaultModel": "spotify/claude-sonnet-5-5",
   "enabledModels": [
