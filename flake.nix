@@ -18,6 +18,11 @@
       url = "github:ryoppippi/nix-bun";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hex = {
+      url = "github:anomalyco/hex";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     lix-module = {
       url = "git+https://git.lix.systems/lix-project/nixos-module";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,6 +37,7 @@
       lix-module,
       nixcord,
       nix-bun,
+      hex,
       ...
     }:
     let
@@ -66,6 +72,7 @@
             ./hosts/${host}/configuration.nix
             home-manager.nixosModules.home-manager
             homeManagerShared
+            { home-manager.sharedModules = [ hex.homeManagerModules.hex ]; }
             bunOverlay
             lix-module.nixosModules.lixFromNixpkgs
           ];

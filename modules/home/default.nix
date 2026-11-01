@@ -4,6 +4,15 @@
   pkgs,
   ...
 }:
+let
+  inherit (pkgs.stdenv.hostPlatform) isDarwin;
+  hex =
+    if isDarwin then
+      "/Applications/Hex.app/Contents/MacOS/hex"
+    else
+      lib.getExe config.programs.hex.package;
+  hexVocabulary = lib.importJSON ./hex/vocabulary.json;
+in
 {
   imports = [
     ./git
@@ -33,6 +42,19 @@
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/modules/home/zed/settings.json";
   xdg.configFile."zed/keymap.json".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/modules/home/zed/keymap.json";
+
+  # Hex's CLI edits the vocabulary only in a running Hex; adding is idempotent and merges spellings.
+  home.activation.hexVocabulary =
+    lib.hm.dag.entryAfter [ (if isDarwin then "writeBoundary" else "hexSettings") ]
+      ''
+        ${lib.optionalString (!isDarwin) "export HEX_APPLICATION_SUPPORT_DIR=${config.xdg.dataHome}/hex"}
+        ${lib.concatStringsSep "\n" (
+          lib.mapAttrsToList (term: soundsLike: ''
+            run ${hex} vocabulary add ${lib.escapeShellArg term} --sounds-like ${lib.escapeShellArg (lib.concatStringsSep "," soundsLike)} \
+              || warnEcho "Hex vocabulary: couldn't add ${term}; start Hex and switch again."
+          '') hexVocabulary
+        )}
+      '';
 
   programs.nixcord = {
     enable = true;

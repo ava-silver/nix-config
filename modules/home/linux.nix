@@ -1,4 +1,8 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  ...
+}:
 {
   dconf.settings = {
     "org/gnome/desktop/interface" = {
@@ -103,6 +107,16 @@
       history-size = 50;
       toggle-menu = [ "<Super>v" ];
     };
+  };
+
+  programs.hex = {
+    enable = true;
+    autostart = true;
+    installModel = true;
+    # Modifier-only shortcuts aren't supported on Linux, so dictation_hotkey keeps Hex's default.
+    model = "parakeet_unified_en";
+    language = "en";
+    settings.shortcut_mode = "hold";
   };
 
   gtk = {
