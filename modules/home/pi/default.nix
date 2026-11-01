@@ -5,7 +5,7 @@
   ...
 }:
 let
-  configBranch = if isWork then "main" else "personal";
+  profile = if isWork then "work" else "personal";
   path = lib.makeBinPath [
     pkgs.git
     pkgs.bun
@@ -20,12 +20,17 @@ in
       export PATH=${path}:$PATH
       agent="$HOME/.pi/agent"
 
-      # Branch is only chosen at clone time; pi rewrites tracked files, so existing clones are left alone.
       if [[ ! -d "$agent/.git" ]]; then
-        $DRY_RUN_CMD timeout 120 git clone --branch ${configBranch} \
+        $DRY_RUN_CMD timeout 120 git clone \
           https://github.com/ava-silver/pi-config.git "$agent" \
           || echo "pi: pi-config clone failed; switch again once online" >&2
       fi
+
+      # Linked straight into the repo so settings changed in Pi write back; assumes the clone lives at ~/nix-config.
+      if [[ -d "$agent" ]]; then
+        $DRY_RUN_CMD ln -sfn "$HOME/nix-config/modules/home/pi/${profile}/settings.json" "$agent/settings.json"
+      fi
+
       if [[ -d "$agent/.git" && ! -d "$agent/extensions/node_modules" ]]; then
         $DRY_RUN_CMD timeout 300 bash "$agent/setup.sh" \
           || echo "pi: pi-config setup failed; switch again once online" >&2
@@ -44,7 +49,7 @@ in
     )
   '';
 
-  # Personal machines only: the personal pi-config branch loads this provider from ~/repos.
+  # Personal machines only: the personal settings load this provider from ~/repos.
   # Runs after `pi` so bun and the pi install exist; same idempotent, non-fatal rules.
   home.activation.piSpotifyProvider = lib.mkIf (!isWork) (
     lib.hm.dag.entryAfter [ "pi" ] ''

@@ -9,7 +9,7 @@
     ./git
     ./bin.nix
     ./shell
-    ./pi.nix
+    ./pi
   ];
 
   home.stateVersion = "25.05";
