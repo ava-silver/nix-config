@@ -59,6 +59,8 @@
 
     profileExtra = lib.mkIf isWork ''
       [[ ! -f $HOME/.zprofile ]] || source $HOME/.zprofile
+      # dogbrew shell-hooks: if you don't want this to be called, comment it out and dogbrew will honour that on subsequent updates.  See also the more dangerous `dogbrew self setup --disable-shell-hooks`.
+      [ -f "/opt/dogbrew/share/etc/dogbrew/init.zsh" ] && . "/opt/dogbrew/share/etc/dogbrew/init.zsh"
     '';
 
     initContent = lib.mkMerge [
@@ -67,10 +69,13 @@
           source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
         fi
       '')
-      # Before compinit, since the IT block extends fpath.
+      # Before compinit, since the IT block and dogbrew extend fpath. Both
+      # dogbrew lines must match its output verbatim, or it rewrites the file.
       (lib.mkIf isWork (
         lib.mkOrder 510 ''
           [[ ! -f $HOME/.zshrc ]] || source $HOME/.zshrc
+          # dogbrew shell-hooks: if you don't want this to be called, comment it out and dogbrew will honour that on subsequent updates.  See also the more dangerous `dogbrew self setup --disable-shell-hooks`.
+          [ -f "/opt/dogbrew/share/etc/dogbrew/init.zsh" ] && . "/opt/dogbrew/share/etc/dogbrew/init.zsh"
         ''
       ))
       ''
