@@ -11,8 +11,26 @@ let
     pkgs.bun
     pkgs.coreutils
   ];
+
+  # Installs the Pi release binary pinned in pi-config's extensions/package.json (or a given version).
+  # `pi update` runs it too: see selfUpdateCommand in the settings.
+  piInstall = pkgs.writeShellApplication {
+    name = "pi-install";
+    runtimeInputs = with pkgs; [
+      coreutils
+      curl
+      findutils
+      gnugrep
+      gnutar
+      gzip
+      jq
+    ];
+    text = builtins.readFile ./pi-install.sh;
+  };
 in
 {
+  home.packages = [ piInstall ];
+
   # Idempotent and non-fatal: if offline, run `just switch` again once connected.
   # The timeouts keep a first boot without network from stalling login.
   home.activation.pi = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -36,8 +54,8 @@ in
           || echo "pi: pi-config setup failed; switch again once online" >&2
       fi
 
-      if [[ ! -d "$HOME/.bun/install/global/node_modules/@earendil-works/pi-coding-agent" ]]; then
-        $DRY_RUN_CMD timeout 300 bun install -g --ignore-scripts @earendil-works/pi-coding-agent \
+      if [[ -f "$agent/extensions/package.json" ]]; then
+        $DRY_RUN_CMD timeout 300 ${piInstall}/bin/pi-install \
           || echo "pi: install failed; switch again once online" >&2
       fi
     )

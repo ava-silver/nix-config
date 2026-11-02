@@ -5,13 +5,17 @@
   "warnings": {
     "anthropicExtraUsage": false
   },
-  "lastChangelogVersion": "1.4.0",
+  "lastChangelogVersion": "1.5.0",
   "theme": "catppuccin-frappe",
   "defaultThinkingLevel": "medium",
   "quietStartup": true,
   "defaultTools": [
     "+grep",
     "+find"
+  ],
+  "selfUpdateCommand": [
+    "pi-install",
+    "{version}"
   ],
   "hideThinkingBlock": false,
   "packages": [

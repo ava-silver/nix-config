@@ -13,6 +13,10 @@
     "+grep",
     "+find"
   ],
+  "selfUpdateCommand": [
+    "pi-install",
+    "{version}"
+  ],
   "hideThinkingBlock": false,
   "packages": [
     "npm:pi-btw",
