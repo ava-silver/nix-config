@@ -12,17 +12,13 @@ let
     pkgs.coreutils
   ];
 
-  # Installs the Pi release binary pinned in pi-config's extensions/package.json (or a given version).
-  # `pi update` runs it too: see selfUpdateCommand in the settings.
+  # Builds the Pi binary from the version pinned in pi-config's extensions/package.json.
+  # Pi's /update command runs it after bumping the pin.
   piInstall = pkgs.writeShellApplication {
     name = "pi-install";
     runtimeInputs = with pkgs; [
+      bun
       coreutils
-      curl
-      findutils
-      gnugrep
-      gnutar
-      gzip
       jq
     ];
     text = builtins.readFile ./pi-install.sh;
@@ -31,7 +27,7 @@ in
 {
   home.packages = [ piInstall ];
 
-  # The release binary runs from a fixed path so allowlists can name ~/.pi/bin/pi.
+  # The binary runs from a fixed path so allowlists can name ~/.pi/bin/pi.
   home.sessionPath = [ "$HOME/.pi/bin" ];
 
   # Idempotent and non-fatal: if offline, run `just switch` again once connected.
