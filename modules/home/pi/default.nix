@@ -40,12 +40,6 @@ in
         $DRY_RUN_CMD timeout 300 bun install -g --ignore-scripts @earendil-works/pi-coding-agent \
           || echo "pi: install failed; switch again once online" >&2
       fi
-
-      # Compiled binaries (pi, pi-dev); rebuilt only when the Pi version, settings, or extensions change.
-      if [[ -f "$agent/scripts/build-binary.ts" && -d "$HOME/.bun/install/global/node_modules/@earendil-works/pi-coding-agent" ]]; then
-        $DRY_RUN_CMD timeout 300 bun "$agent/scripts/build-binary.ts" --if-stale \
-          || echo "pi: binary build failed; run pi-build to retry" >&2
-      fi
     )
   '';
 
