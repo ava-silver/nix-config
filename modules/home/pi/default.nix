@@ -31,6 +31,9 @@ in
 {
   home.packages = [ piInstall ];
 
+  # The release binary runs straight from the active install; pi-install moves the `current` symlink.
+  home.sessionPath = [ "$HOME/.pi/install/current" ];
+
   # Idempotent and non-fatal: if offline, run `just switch` again once connected.
   # The timeouts keep a first boot without network from stalling login.
   home.activation.pi = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
