@@ -12,5 +12,10 @@
   "sound_theme": "soft",
   "sound_effect_volume": 0.25,
   "sound_effects": true,
-  "release_microphone_while_idle": true
+  "release_microphone_while_idle": true,
+  "dictation_processing.default_mode": {
+    "transformations": [
+      "lowercase-first"
+    ]
+  }
 }
