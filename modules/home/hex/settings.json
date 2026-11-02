@@ -1,9 +1,11 @@
 {
   "shortcut_mode": "hold",
   "indicator_position": "bottom",
+  "labs.live_text": true,
   "labs.filler_words": true,
   "labs.spoken_symbols": true,
   "labs.spoken_formatting": true,
+  "labs.smart_spacing": true,
   "show_dock_icon": false,
   "pause_browser_media": true,
   "avoid_bluetooth_microphone": true,
