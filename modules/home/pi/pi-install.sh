@@ -1,11 +1,12 @@
 # Install a Pi release binary from GitHub: pi-install [version]
 #
 # Without a version, installs the version pinned for @earendil-works/pi-coding-agent in
-# ~/.pi/agent/extensions/package.json. Releases live in ~/.pi/install/<version>/ and
-# ~/.pi/install/current points at the active one; the previous release is kept for rollback.
+# ~/.pi/agent/extensions/package.json. The release (the binary and the assets it reads from its own
+# directory) lives at one fixed path, ~/.pi/bin, so allowlists can name ~/.pi/bin/pi.
+# To roll back, run `pi-install <older version>`.
 set -euo pipefail
 
-root="${PI_INSTALL_DIR:-$HOME/.pi/install}"
+root="${PI_INSTALL_DIR:-$HOME/.pi/bin}"
 agent="${PI_CODING_AGENT_DIR:-$HOME/.pi/agent}"
 version="${1:-$(jq -r '.devDependencies["@earendil-works/pi-coding-agent"]' "$agent/extensions/package.json")}"
 
@@ -17,27 +18,26 @@ case "$(uname -s)-$(uname -m)" in
   *) echo "pi-install: unsupported platform $(uname -s)-$(uname -m)" >&2; exit 1 ;;
 esac
 
-mkdir -p "$root"
-previous=$(readlink "$root/current" 2>/dev/null || true)
-
-if [[ ! -x "$root/$version/pi" ]]; then
-  base="https://github.com/earendil-works/pi/releases/download/v$version"
-  archive="pi-$target.tar.gz"
-  tmp=$(mktemp -d "$root/.tmp.XXXXXX")
-  trap 'rm -rf "$tmp"' EXIT
-
-  curl -fsSL --retry 3 -o "$tmp/$archive" "$base/$archive"
-  curl -fsSL --retry 3 -o "$tmp/SHA256SUMS" "$base/SHA256SUMS"
-  (cd "$tmp" && grep " $archive\$" SHA256SUMS | sha256sum -c --quiet -)
-  mkdir "$tmp/extracted"
-  tar -xzf "$tmp/$archive" -C "$tmp/extracted"
-  mv "$tmp/extracted/pi" "$root/$version"
+installed=$(jq -r .version "$root/package.json" 2>/dev/null || true)
+if [[ "$installed" == "$version" && -x "$root/pi" ]]; then
+  echo "pi $version already installed at $root"
+  exit 0
 fi
 
-ln -sfn "$version" "$root/current.new"
-mv -fT "$root/current.new" "$root/current"
+base="https://github.com/earendil-works/pi/releases/download/v$version"
+archive="pi-$target.tar.gz"
+mkdir -p "$(dirname "$root")"
+tmp=$(mktemp -d "$(dirname "$root")/.pi-install.XXXXXX")
+trap 'rm -rf "$tmp"' EXIT
 
-# Keep the active release and the one it replaced. `-type d` skips the `current` symlink.
-find "$root" -mindepth 1 -maxdepth 1 -type d ! -name ".tmp.*" ! -name "$version" ! -name "${previous:-.}" -exec rm -rf {} +
+curl -fsSL --retry 3 -o "$tmp/$archive" "$base/$archive"
+curl -fsSL --retry 3 -o "$tmp/SHA256SUMS" "$base/SHA256SUMS"
+(cd "$tmp" && grep " $archive\$" SHA256SUMS | sha256sum -c --quiet -)
+mkdir "$tmp/extracted"
+tar -xzf "$tmp/$archive" -C "$tmp/extracted"
 
-echo "pi $version installed at $root/current"
+# Running instances keep their open binary; the old directory is deleted with the temp dir.
+[[ ! -e "$root" ]] || mv "$root" "$tmp/previous"
+mv "$tmp/extracted/pi" "$root"
+
+echo "pi $version installed at $root"
