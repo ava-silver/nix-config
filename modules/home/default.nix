@@ -44,7 +44,10 @@ in
   xdg.configFile."zed/keymap.json".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/modules/home/zed/keymap.json";
 
-  xdg.configFile."hex/hex.config.ts".source = ./hex/hex.config.ts;
+  # Hex rejects symlinks that resolve outside its config folder, so copy instead of linking.
+  home.activation.hexConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    run install -Dm644 ${./hex/hex.config.ts} ${config.xdg.configHome}/hex/hex.config.ts
+  '';
 
   # Linux applies settings through programs.hex; the macOS app comes from Homebrew.
   home.activation.hexSettings = lib.mkIf isDarwin (
