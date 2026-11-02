@@ -1,4 +1,14 @@
 {
   "shortcut_mode": "hold",
+  "indicator_position": "bottom",
+  "labs.filler_words": true,
+  "labs.spoken_symbols": true,
+  "labs.spoken_formatting": true,
+  "show_dock_icon": false,
+  "pause_browser_media": true,
+  "avoid_bluetooth_microphone": true,
+  "sound_theme": "soft",
+  "sound_effect_volume": 0.25,
+  "sound_effects": true,
   "release_microphone_while_idle": true
 }
