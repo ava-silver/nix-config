@@ -23,6 +23,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     lix-module = {
       url = "git+https://git.lix.systems/lix-project/nixos-module";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,6 +40,7 @@
       nixpkgs,
       home-manager,
       lix-module,
+      nix-on-droid,
       nixcord,
       nix-bun,
       hex,
@@ -78,5 +84,10 @@
           ];
         }
       );
+      nixOnDroidConfigurations.phone = nix-on-droid.lib.nixOnDroidConfiguration {
+        pkgs = import nixpkgs { system = "aarch64-linux"; };
+        extraSpecialArgs.isWork = false;
+        modules = [ ./hosts/phone/configuration.nix ];
+      };
     };
 }

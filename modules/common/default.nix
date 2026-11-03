@@ -30,56 +30,5 @@ in
   nix.optimise.automatic = true;
 
   environment.systemPackages =
-    with pkgs;
-    [
-      git
-      gh
-      glab
-      delta
-      difftastic
-      mergiraf
-
-      just
-      curl
-      lsd
-      zoxide
-      fzf
-      bat
-      rm-improved
-      ripgrep
-      gum
-      bottom
-      gnused
-      nmap
-      magic-wormhole
-      gotestsum
-      kingfisher
-
-      moreutils
-      jq
-      fastfetch
-
-      python315
-      python3Packages.ipython
-      uv
-      ruff
-      pipx
-      ty
-      pyrefly
-
-      bun
-
-      rust-analyzer
-      jinja-lsp
-
-      nixd
-      nil
-      nixfmt
-
-      prek
-    ]
-    ++ lib.optionals (!isWork) [
-      nodejs_26
-      qbittorrent
-    ];
+    import ./cli-packages.nix { inherit pkgs isWork; } ++ lib.optionals (!isWork) [ pkgs.qbittorrent ];
 }
