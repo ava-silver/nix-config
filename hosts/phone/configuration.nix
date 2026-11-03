@@ -41,7 +41,7 @@
       programs.zsh.initContent = lib.mkAfter ''
         ntfy_pidfile="$HOME/.cache/ntfy.pid"
         if ! kill -0 "$(cat "$ntfy_pidfile" 2>/dev/null)" 2>/dev/null; then
-          ${pkgs.ntfy-sh}/bin/ntfy serve --listen-http 127.0.0.1:2586 >/dev/null 2>&1 &!
+          nohup ${pkgs.ntfy-sh}/bin/ntfy serve --listen-http 127.0.0.1:2586 >"$HOME/.cache/ntfy.log" 2>&1 &!
           echo $! > "$ntfy_pidfile"
         fi
       '';
