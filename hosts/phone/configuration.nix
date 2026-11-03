@@ -19,7 +19,10 @@
   home-manager = {
     useGlobalPkgs = true;
     backupFileExtension = "bak";
-    extraSpecialArgs = { inherit isWork; };
+    extraSpecialArgs = {
+      inherit isWork;
+      isPhone = true;
+    };
     config = {
       imports = [
         ../../modules/home/git

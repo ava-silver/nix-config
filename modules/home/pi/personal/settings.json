@@ -19,6 +19,7 @@
     "~/repos/pi-spotify-provider"
   ],
   "extensions": [
+    "-extensions/phone-notify.ts",
     "-extensions/workflows/index.ts",
     "-extensions/slack-mcp/index.ts",
     "-extensions/read-aloud/index.ts",

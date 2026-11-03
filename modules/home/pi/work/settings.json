@@ -20,6 +20,7 @@
     "~/go/src/github.com/DataDog/datadog-pi-packages/packages/dd-ai-gateway"
   ],
   "extensions": [
+    "-extensions/phone-notify.ts",
     "-extensions/workflows/index.ts",
     "-extensions/trajectory/index.ts",
     "-extensions/ui-performance.ts"

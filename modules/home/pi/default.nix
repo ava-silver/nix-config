@@ -2,10 +2,17 @@
   lib,
   pkgs,
   isWork,
+  isPhone ? false,
   ...
 }:
 let
-  profile = if isWork then "work" else "personal";
+  profile =
+    if isPhone then
+      "phone"
+    else if isWork then
+      "work"
+    else
+      "personal";
   path = lib.makeBinPath [
     pkgs.git
     pkgs.bun
