@@ -18,10 +18,7 @@
   home-manager = {
     useGlobalPkgs = true;
     backupFileExtension = "bak";
-    extraSpecialArgs = {
-      inherit isWork;
-      isPhone = true;
-    };
+    extraSpecialArgs = { inherit isWork; };
     config = {
       imports = [
         ../../modules/home/git
@@ -30,6 +27,7 @@
         ../../modules/home/pi
       ];
       home.stateVersion = "25.05";
+      pi.profile = "phone";
 
       # Pi publishes notifications to a local ntfy server that its phone-notify extension starts and stops;
       # the ntfy app subscribes to it. Termux:API can't be used because it only accepts calls from apps
