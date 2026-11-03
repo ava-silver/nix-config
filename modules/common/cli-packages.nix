@@ -20,6 +20,23 @@ with pkgs;
   gum
   bottom
   gnused
+  gnutar
+  gzip
+  xz
+  zip
+  unzip
+  gawk
+  findutils
+  gnugrep
+  diffutils
+  patch
+  file
+  which
+  less
+  wget
+  rsync
+  tree
+  gnumake
   nmap
   magic-wormhole
   gotestsum
