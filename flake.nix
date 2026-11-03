@@ -87,7 +87,10 @@
       nixOnDroidConfigurations.phone = nix-on-droid.lib.nixOnDroidConfiguration {
         pkgs = import nixpkgs {
           system = "aarch64-linux";
-          overlays = [ (import ./hosts/phone/bun-overlay.nix) ];
+          overlays = [
+            nix-bun.overlays.default
+            (import ./hosts/phone/bun-overlay.nix)
+          ];
         };
         extraSpecialArgs.isWork = false;
         modules = [ ./hosts/phone/configuration.nix ];
