@@ -163,11 +163,9 @@
     zoom-us
     prismlauncher
     lutris
-    android-studio
     docker-compose
     android-tools
     mpv
-    celluloid
 
     gnome-tweaks
     dconf-editor
