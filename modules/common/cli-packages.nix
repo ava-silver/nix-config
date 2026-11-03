@@ -17,6 +17,7 @@ with pkgs;
   bat
   rm-improved
   ripgrep
+  fd
   gum
   bottom
   gnused
