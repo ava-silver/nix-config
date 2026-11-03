@@ -7,6 +7,7 @@ with pkgs;
   delta
   difftastic
   mergiraf
+  nano
 
   just
   curl
