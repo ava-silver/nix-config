@@ -10,7 +10,6 @@ in
 {
   environment.packages = import ../../modules/common/cli-packages.nix { inherit pkgs isWork; } ++ [
     pkgs.openssh
-    pkgs.ntfy-sh
     termux.termux-am
     termux.termux-api
   ];
@@ -38,11 +37,6 @@ in
       ];
       home.stateVersion = "25.05";
       pi.profile = "phone";
-
-      # Pi publishes notifications to a local ntfy server that its phone-notify extension starts and stops;
-      # the ntfy app subscribes to it. Termux:API can't be used because it only accepts calls from apps
-      # sharing its Android user.
-      home.sessionVariables.PI_NTFY_URL = "http://127.0.0.1:2586/pi";
     };
   };
 }
