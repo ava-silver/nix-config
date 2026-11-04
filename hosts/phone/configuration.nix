@@ -1,8 +1,18 @@
-{ pkgs, isWork, ... }:
+{
+  pkgs,
+  isWork,
+  nix-on-droid,
+  ...
+}:
+let
+  termux = import ./termux-api.nix { inherit pkgs nix-on-droid; };
+in
 {
   environment.packages = import ../../modules/common/cli-packages.nix { inherit pkgs isWork; } ++ [
     pkgs.openssh
     pkgs.ntfy-sh
+    termux.termux-am
+    termux.termux-api
   ];
 
   system.stateVersion = "24.05";

@@ -92,7 +92,10 @@
             (import ./hosts/phone/bun-overlay.nix)
           ];
         };
-        extraSpecialArgs.isWork = false;
+        extraSpecialArgs = {
+          isWork = false;
+          inherit nix-on-droid;
+        };
         modules = [ ./hosts/phone/configuration.nix ];
       };
     };
