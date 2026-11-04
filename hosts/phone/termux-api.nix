@@ -47,6 +47,8 @@ rec {
 
     postInstall = ''
       sed -i "1c#!${pkgs.runtimeShell}" $out/bin/* $out/libexec/termux-callback
+      # The scripts call getopt, which nix-on-droid does not put on PATH.
+      sed -i 's|`getopt |`${pkgs.util-linux}/bin/getopt |' $out/bin/*
     '';
   };
 }
