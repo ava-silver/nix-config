@@ -1,7 +1,5 @@
 { ... }:
 {
-  imports = [ ../../modules/darwin ];
-
   # Formula-level trust doesn't cover tap siblings, which Homebrew still loads (e.g. on upgrade).
   homebrew.taps =
     map
@@ -27,11 +25,5 @@
     "azure/functions/azure-functions-core-tools@4"
   ];
   homebrew.casks = [ "gcloud-cli" ];
-  system.primaryUser = "ava.silver";
   system.stateVersion = 5;
-  users.users."ava.silver".home = "/Users/ava.silver";
-  home-manager = {
-    useGlobalPkgs = true;
-    users."ava.silver".imports = [ ../../modules/home ];
-  };
 }

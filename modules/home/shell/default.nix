@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  isWork,
+  host,
   ...
 }:
 {
@@ -10,7 +10,7 @@
     enable = true;
 
     # Work: ZDOTDIR moves the managed .zshrc aside so ~/.zshrc stays mutable for IT-managed blocks.
-    dotDir = lib.mkIf isWork "${config.xdg.configHome}/zsh";
+    dotDir = lib.mkIf host.work "${config.xdg.configHome}/zsh";
 
     autocd = true;
 
@@ -51,13 +51,13 @@
       }
     ];
 
-    envExtra = lib.mkIf isWork ''
+    envExtra = lib.mkIf host.work ''
       export VOLTA_HOME="$HOME/.volta"
       export PATH="$VOLTA_HOME/bin:$HOME/.yarn/switch/bin:$PATH:$HOME/.local/bin"
       [[ ! -f $HOME/.cargo/env ]] || . "$HOME/.cargo/env"
     '';
 
-    profileExtra = lib.mkIf isWork ''
+    profileExtra = lib.mkIf host.work ''
       [[ ! -f $HOME/.zprofile ]] || source $HOME/.zprofile
       # dogbrew shell-hooks: if you don't want this to be called, comment it out and dogbrew will honour that on subsequent updates.  See also the more dangerous `dogbrew self setup --disable-shell-hooks`.
       [ -f "/opt/dogbrew/share/etc/dogbrew/init.zsh" ] && . "/opt/dogbrew/share/etc/dogbrew/init.zsh"
@@ -71,7 +71,7 @@
       '')
       # Before compinit, since the IT block and dogbrew extend fpath. Both
       # dogbrew lines must match its output verbatim, or it rewrites the file.
-      (lib.mkIf isWork (
+      (lib.mkIf host.work (
         lib.mkOrder 510 ''
           [[ ! -f $HOME/.zshrc ]] || source $HOME/.zshrc
           # dogbrew shell-hooks: if you don't want this to be called, comment it out and dogbrew will honour that on subsequent updates.  See also the more dangerous `dogbrew self setup --disable-shell-hooks`.
@@ -88,7 +88,7 @@
 
         zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}'
       ''
-      (lib.mkIf isWork ''
+      (lib.mkIf host.work ''
         source ${./work.zsh}
       '')
     ];

@@ -1,7 +1,7 @@
 {
   lib,
   pkgs,
-  isWork,
+  host,
   ...
 }:
 let
@@ -30,5 +30,5 @@ in
   nix.optimise.automatic = true;
 
   environment.systemPackages =
-    import ./cli-packages.nix { inherit pkgs isWork; } ++ lib.optionals (!isWork) [ pkgs.qbittorrent ];
+    import ./cli-packages.nix { inherit pkgs host; } ++ lib.optionals (!host.work) [ pkgs.qbittorrent ];
 }
