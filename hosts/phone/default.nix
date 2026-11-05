@@ -18,7 +18,10 @@
 
   home-manager = {
     useGlobalPkgs = true;
-    backupFileExtension = "bak";
-    config.imports = [ ../../modules/home ];
+    config = {
+      imports = [ ../../modules/home ];
+      # Replace files home-manager doesn't own instead of failing on them.
+      home.backupCommand = "${pkgs.coreutils}/bin/rm -rf";
+    };
   };
 }
