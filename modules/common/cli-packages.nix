@@ -65,5 +65,7 @@ with pkgs;
   nixfmt
 
   prek
+
+  typst
 ]
 ++ pkgs.lib.optionals (!host.work) [ nodejs_26 ]
