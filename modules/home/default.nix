@@ -11,8 +11,14 @@ let
     "@gh@" = "${pkgs.gh}";
   };
 
-  # Dropping the shebang keeps scripts on Nix's bash rather than whichever bash is first on PATH.
-  withNixShell = lib.removePrefix "#!/usr/bin/env bash\n";
+  # Scripts run on Nix's bash rather than whichever bash is first on PATH (macOS ships 3.2).
+  envBash = "#!/usr/bin/env bash\n";
+  withNixBash =
+    content:
+    if lib.hasPrefix envBash content then
+      "#!${pkgs.runtimeShell}\n" + lib.removePrefix envBash content
+    else
+      content;
 
   makePkg =
     dir: filename:
@@ -27,8 +33,7 @@ let
     in
     pkgs.writeTextFile {
       inherit name;
-      text =
-        if lib.hasSuffix ".sh" filename then "#!${pkgs.runtimeShell}\n" + withNixShell content else content;
+      text = withNixBash content;
       executable = true;
       destination = "/bin/${name}";
     };
