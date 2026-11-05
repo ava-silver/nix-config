@@ -39,9 +39,9 @@ in
 
   # Out-of-store so settings changed in Zed write back to the repo.
   xdg.configFile."zed/settings.json".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.my.repo}/modules/home/zed/settings.json";
+    config.lib.file.mkOutOfStoreSymlink "${config.thisRepoDir}/modules/home/zed/settings.json";
   xdg.configFile."zed/keymap.json".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.my.repo}/modules/home/zed/keymap.json";
+    config.lib.file.mkOutOfStoreSymlink "${config.thisRepoDir}/modules/home/zed/keymap.json";
 
   # Hex rejects symlinks that resolve outside its config folder, so copy instead of linking.
   home.activation.hexConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''

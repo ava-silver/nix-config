@@ -46,7 +46,7 @@ in
     ./pi
   ];
 
-  options.my.repo = lib.mkOption {
+  options.thisRepoDir = lib.mkOption {
     type = lib.types.str;
     default = "${config.home.homeDirectory}/nix-config";
     description = "Clone of this repo, for files that link back into it so apps can write changes to the repo.";

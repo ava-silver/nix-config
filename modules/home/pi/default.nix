@@ -53,7 +53,7 @@ in
 
       # Linked straight into the repo so settings changed in Pi write back.
       if [[ -d "$agent" ]]; then
-        $DRY_RUN_CMD ln -sfn "${config.my.repo}/modules/home/pi/${profile}/settings.json" "$agent/settings.json"
+        $DRY_RUN_CMD ln -sfn "${config.thisRepoDir}/modules/home/pi/${profile}/settings.json" "$agent/settings.json"
       fi
 
       if [[ -d "$agent/.git" && ! -d "$agent/extensions/node_modules" ]]; then
