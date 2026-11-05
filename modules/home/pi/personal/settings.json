@@ -16,17 +16,16 @@
   "hideThinkingBlock": false,
   "packages": [
     "npm:pi-btw",
+    "npm:pi-session-auto-rename",
     "~/repos/pi-spotify-provider"
   ],
   "extensions": [
     "-extensions/phone-notify.ts",
-    "-extensions/workflows/index.ts",
     "-extensions/slack-mcp/index.ts",
     "-extensions/read-aloud/index.ts",
     "-extensions/session-secret-redaction/index.ts",
     "-extensions/ui-performance.ts",
-    "-extensions/spend.ts",
-    "-extensions/trajectory/index.ts"
+    "-extensions/spend.ts"
   ],
   "defaultProvider": "spotify",
   "defaultModel": "spotify/claude-sonnet-5-5",

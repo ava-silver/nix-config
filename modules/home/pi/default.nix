@@ -59,6 +59,10 @@ in
         $DRY_RUN_CMD ln -sfn "${config.thisRepoDir}/modules/home/pi/${profile}/settings.json" "$agent/settings.json"
       fi
 
+      if [[ -d "$agent/.git" ]]; then
+        $DRY_RUN_CMD ln -sfn "${config.thisRepoDir}/modules/home/pi/${profile}/pi-session-auto-rename.json" "$agent/extensions/pi-session-auto-rename.json"
+      fi
+
       if [[ -d "$agent/.git" && ! -d "$agent/extensions/node_modules" ]]; then
         $DRY_RUN_CMD timeout 300 bash "$agent/setup.sh" \
           || echo "pi: pi-config setup failed; switch again once online" >&2
