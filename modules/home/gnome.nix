@@ -1,14 +1,27 @@
 {
   pkgs,
   lib,
+  fonts,
   ...
 }:
+let
+  extensions = with pkgs.gnomeExtensions; [
+    appindicator
+    gsconnect
+    clipboard-indicator
+    blur-my-shell
+    caffeine
+    rounded-window-corners-reborn
+  ];
+in
 {
+  home.packages = extensions;
+
   dconf.settings = {
     "org/gnome/desktop/interface" = {
-      font-name = "Comfortaa 11";
-      document-font-name = "Comfortaa 11";
-      monospace-font-name = "MonoLisa Nerd Font 11";
+      font-name = "${fonts.sans} 11";
+      document-font-name = "${fonts.sans} 11";
+      monospace-font-name = "${fonts.mono} 11";
       clock-format = "12h";
       color-scheme = "prefer-dark";
       font-antialiasing = "grayscale";
@@ -21,7 +34,7 @@
     };
 
     "org/gnome/desktop/wm/preferences" = {
-      titlebar-font = "Comfortaa Bold 11";
+      titlebar-font = "${fonts.sans} Bold 11";
       button-layout = "appmenu:minimize,maximize,close";
     };
 
@@ -81,14 +94,7 @@
     };
 
     "org/gnome/shell" = {
-      enabled-extensions = [
-        "appindicatorsupport@rgcjonas.gmail.com"
-        "gsconnect@andyholmes.github.io"
-        "clipboard-indicator@tudmotu.com"
-        "blur-my-shell@aunetx"
-        pkgs.gnomeExtensions.caffeine.extensionUuid
-        pkgs.gnomeExtensions.rounded-window-corners-reborn.extensionUuid
-      ];
+      enabled-extensions = map (e: e.extensionUuid) extensions;
       favorite-apps = [
         "firefox.desktop"
         "org.gnome.Nautilus.desktop"
@@ -107,16 +113,6 @@
       history-size = 50;
       toggle-menu = [ "<Super>v" ];
     };
-  };
-
-  programs.hex = {
-    enable = true;
-    autostart = true;
-    installModel = true;
-    # Modifier-only shortcuts aren't supported on Linux, so dictation_hotkey keeps Hex's default.
-    model = "parakeet_unified_en";
-    language = "en";
-    settings = lib.importJSON ./hex/settings.json;
   };
 
   gtk = {

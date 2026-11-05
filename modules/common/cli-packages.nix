@@ -1,4 +1,4 @@
-{ pkgs, isWork }:
+{ pkgs, host }:
 with pkgs;
 [
   git
@@ -66,4 +66,4 @@ with pkgs;
 
   prek
 ]
-++ pkgs.lib.optionals (!isWork) [ nodejs_26 ]
+++ pkgs.lib.optionals (!host.work) [ nodejs_26 ]

@@ -1,4 +1,4 @@
-font-family = MonoLisa Nerd Font
+font-family = @mono@
 font-size = 18
 font-feature = -calt, -liga, -dlig
 adjust-cell-width = -10%

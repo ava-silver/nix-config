@@ -35,68 +35,108 @@
   };
 
   outputs =
-    {
-      nix-darwin,
+    inputs@{
       nixpkgs,
+      nix-darwin,
       home-manager,
-      lix-module,
       nix-on-droid,
-      nixcord,
       nix-bun,
-      hex,
+      lix-module,
       ...
     }:
     let
-      homeManagerShared =
-        { isWork, ... }:
-        {
-          home-manager.sharedModules = [ nixcord.homeModules.nixcord ];
-          home-manager.extraSpecialArgs = { inherit isWork; };
+      hosts = {
+        slate = {
+          kind = "darwin";
+          user = "ava";
         };
-      bunOverlay.nixpkgs.overlays = [ nix-bun.overlays.default ];
+        work = {
+          kind = "darwin";
+          user = "ava.silver";
+          work = true;
+        };
+        pegasus = {
+          kind = "nixos";
+          user = "ava";
+        };
+        phoenix = {
+          kind = "nixos";
+          user = "ava";
+        };
+        phone.kind = "droid";
+      };
+
+      fonts = {
+        sans = "Comfortaa";
+        mono = "MonoLisa Nerd Font";
+      };
+
+      overlays = [ nix-bun.overlays.default ];
+      lixOverlay = lix-module.overlays.lixFromNixpkgs;
+
+      builders = {
+        darwin =
+          host: args:
+          nix-darwin.lib.darwinSystem {
+            system = "aarch64-darwin";
+            specialArgs = args;
+            modules = [
+              ./hosts/${host.name}
+              ./modules/darwin
+              home-manager.darwinModules.home-manager
+              { nixpkgs.overlays = overlays ++ [ lixOverlay ]; }
+              { home-manager.extraSpecialArgs = args; }
+            ];
+          };
+
+        nixos =
+          host: args:
+          nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = args;
+            modules = [
+              ./hosts/${host.name}
+              ./modules/nixos
+              home-manager.nixosModules.home-manager
+              { nixpkgs.overlays = overlays ++ [ lixOverlay ]; }
+              { home-manager.extraSpecialArgs = args; }
+            ];
+          };
+
+        # nix-on-droid rejects nixpkgs.overlays when given a pkgs, so overlays apply at import.
+        # No Lix: under proot, Lix 2.96 fails every local build (stat of
+        # /proc/sys/user/max_user_namespaces returns EACCES), which breaks `nix-on-droid switch`.
+        droid =
+          host: args:
+          nix-on-droid.lib.nixOnDroidConfiguration {
+            pkgs = import nixpkgs {
+              system = "aarch64-linux";
+              overlays = overlays ++ [ (import ./hosts/${host.name}/overlay.nix inputs) ];
+            };
+            extraSpecialArgs = args;
+            modules = [
+              ./hosts/${host.name}
+              { home-manager.extraSpecialArgs = args; }
+            ];
+          };
+      };
+
+      mkHost =
+        name: cfg:
+        let
+          host = {
+            inherit name;
+            work = false;
+          }
+          // cfg;
+        in
+        builders.${host.kind} host { inherit inputs host fonts; };
+
+      ofKind = kind: nixpkgs.lib.filterAttrs (_: host: host.kind == kind) hosts;
     in
     {
-      darwinConfigurations = nixpkgs.lib.genAttrs [ "slate" "work" ] (
-        host:
-        nix-darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-          specialArgs.isWork = host == "work";
-          modules = [
-            ./hosts/${host}/configuration.nix
-            home-manager.darwinModules.home-manager
-            homeManagerShared
-            bunOverlay
-          ];
-        }
-      );
-      nixosConfigurations = nixpkgs.lib.genAttrs [ "pegasus" "phoenix" ] (
-        host:
-        nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs.isWork = false;
-          modules = [
-            ./hosts/${host}/configuration.nix
-            home-manager.nixosModules.home-manager
-            homeManagerShared
-            { home-manager.sharedModules = [ hex.homeManagerModules.hex ]; }
-            bunOverlay
-            lix-module.nixosModules.lixFromNixpkgs
-          ];
-        }
-      );
-      nixOnDroidConfigurations.phone = nix-on-droid.lib.nixOnDroidConfiguration {
-        pkgs = import nixpkgs {
-          system = "aarch64-linux";
-          overlays = [
-            nix-bun.overlays.default
-            (import ./hosts/phone/bun-overlay.nix)
-          ];
-        };
-        extraSpecialArgs = {
-          isWork = false;
-          inherit nix-on-droid;
-        };
-        modules = [ ./hosts/phone/configuration.nix ];
-      };
+      darwinConfigurations = builtins.mapAttrs mkHost (ofKind "darwin");
+      nixosConfigurations = builtins.mapAttrs mkHost (ofKind "nixos");
+      nixOnDroidConfigurations = builtins.mapAttrs mkHost (ofKind "droid");
     };
 }

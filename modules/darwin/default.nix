@@ -1,6 +1,16 @@
-{ lib, pkgs, ... }:
+{ host, lib, ... }:
 {
   imports = [ ../common ];
+
+  system.primaryUser = host.user;
+  users.users.${host.user}.home = "/Users/${host.user}";
+  home-manager = {
+    useGlobalPkgs = true;
+    users.${host.user}.imports = [
+      ../home
+      ../home/desktop.nix
+    ];
+  };
 
   nixpkgs.config.allowUnfreePredicate = pkg: lib.getName pkg == "discord";
 
@@ -10,7 +20,6 @@
     Minute = 15;
   };
 
-  nix.package = pkgs.lix;
   # Drops the default root channels entry, which doesn't exist on a flake-only setup and makes Lix warn.
   nix.nixPath = lib.mkForce [ "nixpkgs=flake:nixpkgs" ];
 
