@@ -49,6 +49,9 @@ in
         $DRY_RUN_CMD timeout 120 git clone \
           https://github.com/ava-silver/pi-config.git "$agent" \
           || echo "pi: pi-config clone failed; switch again once online" >&2
+      elif [[ -z "$(git -C "$agent" status --porcelain)" ]]; then
+        $DRY_RUN_CMD timeout 120 git -C "$agent" pull --ff-only \
+          || echo "pi: pi-config pull failed; switch again once online" >&2
       fi
 
       # Linked straight into the repo so settings changed in Pi write back.
@@ -81,6 +84,9 @@ in
           $DRY_RUN_CMD timeout 120 git clone \
             https://github.com/ava-silver/pi-spotify-provider.git "$provider" \
             || echo "pi: spotify provider clone failed; switch again once online" >&2
+        elif [[ -z "$(git -C "$provider" status --porcelain)" ]]; then
+          $DRY_RUN_CMD timeout 120 git -C "$provider" pull --ff-only \
+            || echo "pi: spotify provider pull failed; switch again once online" >&2
         fi
         if [[ -d "$provider/.git" && ! -d "$provider/node_modules" ]]; then
           (cd "$provider" && $DRY_RUN_CMD timeout 300 bun install --ignore-scripts) \
