@@ -1,6 +1,8 @@
 {
   "bun": ["button", "bund"],
   "docs": ["docks"],
+  "pi": ["Pike", "Py"],
+  "pi-config": ["PyConfig"],
   "nix": ["nick's", "nyx", "necks"],
   "Zed": ["z"]
 }
