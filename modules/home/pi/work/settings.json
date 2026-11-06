@@ -30,13 +30,15 @@
     "~/dd/experimental/users/ava.silver/ssi/skills/"
   ],
   "defaultProvider": "baseten",
-  "defaultModel": "baseten/moonshotai/Kimi-K3",
+  "defaultModel": "deepseek-v4-1-flash",
   "enabledModels": [
     "anthropic/claude-opus-5-5",
     "anthropic/claude-sonnet-5-5",
     "openai-codex/gpt-6.1-sol",
     "baseten/deepseek-v4-1-flash",
-    "openai-codex/gpt-6-luna"
+    "openai-codex/gpt-6-luna",
+    "google/gemini-4-argon",
+    "openai/openai/gpt-6-astra"
   ],
   "showCacheMissNotices": true,
   "collapseChangelog": true,
