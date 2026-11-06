@@ -14,10 +14,12 @@ let
     else
       "personal";
 
+  # Activation runs with a nix-only PATH, so git needs ssh supplied here to pull SSH remotes.
   path = lib.makeBinPath [
     pkgs.git
     pkgs.bun
     pkgs.coreutils
+    pkgs.openssh
   ];
 
   # Builds the Pi binary from the version pinned in pi-config's extensions/package.json.
