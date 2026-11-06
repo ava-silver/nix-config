@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-if ! is-graphite >/dev/null 2>&1; then
+if ! is-graphite -q; then
   slug=$(printf '%s' "$*" \
     | LC_ALL=C tr '[:upper:]' '[:lower:]' \
     | LC_ALL=C sed -E 's/[^a-z0-9._-]+/-/g; s/^-+//; s/-+$//; s/-+/-/g')

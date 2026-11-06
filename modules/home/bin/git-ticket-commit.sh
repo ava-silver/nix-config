@@ -8,7 +8,7 @@ ticket=$(git-ticket)
 if [ -n "$ticket" ]; then
   ticket="[$ticket] "
 fi
-if is-graphite >/dev/null 2>&1; then
+if is-graphite -q; then
   gt cm -m "$ticket$msg"
 else
   git commit -m "$ticket$msg"
