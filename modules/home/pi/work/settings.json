@@ -5,9 +5,9 @@
   "warnings": {
     "anthropicExtraUsage": false
   },
-  "lastChangelogVersion": "1.5.0",
+  "lastChangelogVersion": "1.5.2",
   "theme": "catppuccin-frappe",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "high",
   "quietStartup": true,
   "defaultTools": [
     "+grep",
@@ -29,8 +29,8 @@
     "~/dd/claude-marketplace/serverless/skills",
     "~/dd/experimental/users/ava.silver/ssi/skills/"
   ],
-  "defaultProvider": "baseten",
-  "defaultModel": "deepseek-v4-1-flash",
+  "defaultProvider": "anthropic",
+  "defaultModel": "claude-opus-5-5",
   "enabledModels": [
     "anthropic/claude-opus-5-5",
     "anthropic/claude-sonnet-5-5",
