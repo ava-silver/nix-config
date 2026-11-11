@@ -6,6 +6,7 @@
   "labs.spoken_symbols": true,
   "labs.spoken_formatting": true,
   "labs.smart_spacing": true,
+  "labs.vocabulary_biasing": true,
   "show_dock_icon": false,
   "pause_browser_media": true,
   "avoid_bluetooth_microphone": true,
