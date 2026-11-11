@@ -21,9 +21,11 @@
     "tfenv"
     "kubectx"
     "atlassian/acli/acli"
-    "azure-cli"
     "azure/functions/azure-functions-core-tools@4"
   ];
-  homebrew.casks = [ "gcloud-cli" ];
+  homebrew.casks = [
+    "gcloud-cli"
+    "azure-cli"
+  ];
   system.stateVersion = 5;
 }
