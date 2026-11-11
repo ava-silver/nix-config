@@ -37,6 +37,12 @@ in
 {
   home.packages = [ piInstall ];
 
+  # Pi loads AGENTS.md from parent directories, so this applies to every work repo.
+  # Uses the real path because ~/dd is a symlink to it.
+  home.file."go/src/github.com/DataDog/AGENTS.md" = lib.mkIf host.work {
+    source = ./work/dd-AGENTS.md;
+  };
+
   # The binary runs from a fixed path so allowlists can name ~/.pi/bin/pi.
   home.sessionPath = [ "$HOME/.pi/bin" ];
 

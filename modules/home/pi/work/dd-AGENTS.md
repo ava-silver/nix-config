@@ -1,0 +1,2 @@
+- Run commands needing AWS auth through `aws-sso-exec` (for example, `aws-sso-exec aws sts get-caller-identity`; default profile: `sso-serverless-sandbox-account-admin`). It uses native AWS SSO and opens a browser for the user to auth only when required.
+- Never use `aws-vault`. When a repo script or doc says `aws-vault exec <profile> -- <cmd>`, run `<cmd>` through `aws-sso-exec` instead.
