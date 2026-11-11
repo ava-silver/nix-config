@@ -23,7 +23,7 @@ let
   ];
 
   # Builds the Pi binary from the version pinned in pi-config's extensions/package.json.
-  # Pi's /update command runs it after bumping the pin.
+  # Pi's /update command runs it after bumping the pin; `pi update` runs it with the new version.
   piInstall = pkgs.writeShellApplication {
     name = "pi-install";
     runtimeInputs = with pkgs; [
@@ -39,6 +39,9 @@ in
 
   # The binary runs from a fixed path so allowlists can name ~/.pi/bin/pi.
   home.sessionPath = [ "$HOME/.pi/bin" ];
+
+  # Makes `pi update` bump the pinned version and rebuild the binary.
+  home.sessionVariables.PI_SELF_UPDATE_COMMAND = "${piInstall}/bin/pi-install {version}";
 
   # Idempotent and non-fatal: if offline, run `just switch` again once connected.
   # The timeouts keep a first boot without network from stalling login.
