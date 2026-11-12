@@ -1,0 +1,36 @@
+# Extra detectors for secrets Seeker reports that Kingfisher's built-in catalog
+# misses: a bare 32-hex Datadog API key and a `ya29.` Google OAuth access token.
+rules:
+  - name: Datadog API key
+    id: custom.datadog-api-key
+    pattern: |
+      (?xi)
+      (?:dd|datadog)[\s_-]{0,4}api[\s_-]{0,4}key
+      [\s\S]{0,64}?
+      \b([0-9a-f]{32})\b
+    min_entropy: 3.0
+    confidence: high
+    examples:
+      - 'DD_API_KEY=ea9af0f123606e5f67a4ca9e64cde26a'
+      - '"name": "DD_API_KEY", "value": "147a95902b3395a036bd8cd6b781a24f"'
+      - |
+        "name": "DD_API_KEY",
+        "value": "ea9af0f123606e5f67a4ca9e64cde26a"
+    negative_examples:
+      - 'DD_API_KEY=00000000000000000000000000000000'
+    references:
+      - https://docs.datadoghq.com/account_management/api-app-keys/
+
+  - name: Google OAuth 2.0 access token
+    id: custom.google-oauth-access-token
+    pattern: |
+      (?x)
+      \b(ya29\.[A-Za-z0-9._-]{20,4096})
+    min_entropy: 3.0
+    confidence: high
+    examples:
+      - 'ya29.FAKE.example-token_for.redaction-tests.0123456789abcdef'
+    negative_examples:
+      - 'ya29.too-short'
+    references:
+      - https://cloud.google.com/docs/authentication/token-types

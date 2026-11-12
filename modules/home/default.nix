@@ -9,6 +9,9 @@ let
   # Scripts that need a Nix store path use @varname@ as a placeholder.
   subs = {
     "@gh@" = "${pkgs.gh}";
+    "@redactSecretsRules@" = "${pkgs.writeText "redact-secrets-rules.yml" (
+      builtins.readFile ./bin/work/redact-secrets/rules.yml
+    )}";
   };
 
   # Scripts run on Nix's bash rather than whichever bash is first on PATH (macOS ships 3.2).

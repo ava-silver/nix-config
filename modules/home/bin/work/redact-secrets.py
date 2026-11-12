@@ -10,6 +10,7 @@ SUCCESS_CODES = {0, 200, 205}
 
 
 def scan(path: Path) -> list[dict[str, int]]:
+    # Validators skip retired or expired credentials, which still need masking.
     result = subprocess.run(
         [
             "kingfisher",
@@ -17,7 +18,9 @@ def scan(path: Path) -> list[dict[str, int]]:
             str(path),
             "--git-history",
             "none",
-            "--only-valid",
+            "--no-validate",
+            "--rules-path",
+            "@redactSecretsRules@",
             "--redact",
             "--no-dedup",
             "--format",
@@ -86,12 +89,12 @@ def main() -> int:
         print(f"Scanning {path}", flush=True)
         findings = scan(path)
         if not findings:
-            print(f"No validated secrets in {path}", flush=True)
+            print(f"No secrets found in {path}", flush=True)
             continue
         redact(path, findings)
         remaining = scan(path)
         if remaining:
-            raise RuntimeError(f"Validated secrets remain in {path}")
+            raise RuntimeError(f"Secrets remain in {path}")
         print(f"Redacted {len(findings)} occurrence(s) from {path}", flush=True)
 
     return 0
