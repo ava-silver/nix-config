@@ -23,7 +23,6 @@
     "-extensions/phone-notify.ts",
     "-extensions/read-aloud/index.ts",
     "-extensions/workflows/index.ts",
-    "-extensions/trajectory/index.ts",
     "-extensions/ui-performance.ts"
   ],
   "skills": [

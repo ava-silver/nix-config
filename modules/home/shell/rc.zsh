@@ -148,7 +148,7 @@ piredact() {
     printf 'Usage: piredact <seeker-slack-message-url>\n' >&2
     return 2
   fi
-  pi --no-session --model dd-ai-gateway/baseten/deepseek-ai/DeepSeek-V4-Flash-0731 \
+  pi --no-session --model baseten/deepseek-v4-1-flash \
     "Read the Seeker alert at $1. Collect every reported local file path that exists, then run exactly one command to redact and verify them: redact-secrets -- <absolute-path>... Do not read or print secret values yourself."
 }
 
