@@ -16,6 +16,9 @@
     experimental-features = nix-command flakes
   '';
 
+  # Lets `nix-shell -p` and `<nixpkgs>` resolve through the flake registry.
+  nix.nixPath = [ "nixpkgs=flake:nixpkgs" ];
+
   home-manager = {
     useGlobalPkgs = true;
     config = {
