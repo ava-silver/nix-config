@@ -25,7 +25,7 @@
 
     settings.user = {
       name = "Ava Silver";
-      email = if host.work then "ava.silver@datadoghq.com" else "ava@avasilver.dev";
+      email = if host.work || host.workPhone then "ava.silver@datadoghq.com" else "ava@avasilver.dev";
     };
 
     lfs.enable = true;
