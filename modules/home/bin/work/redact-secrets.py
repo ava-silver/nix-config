@@ -10,7 +10,8 @@ SUCCESS_CODES = {0, 200, 205}
 
 
 def scan(path: Path) -> list[dict[str, int]]:
-    # Validators skip retired or expired credentials, which still need masking.
+    # Validators skip retired or expired credentials, which still need masking. Archive entries are excluded because
+    # this script rewrites the plain files it is given, not the archives that contain them.
     result = subprocess.run(
         [
             "kingfisher",
@@ -19,6 +20,7 @@ def scan(path: Path) -> list[dict[str, int]]:
             "--git-history",
             "none",
             "--no-validate",
+            "--no-extract-archives",
             "--rules-path",
             "@redactSecretsRules@",
             "--redact",
@@ -41,6 +43,13 @@ def scan(path: Path) -> list[dict[str, int]]:
         for line in result.stdout.splitlines()
         if line and (record := json.loads(line)).get("finding")
     ]
+
+
+def by_file(findings: list[dict[str, int]]) -> dict[Path, list[dict[str, int]]]:
+    grouped: dict[Path, list[dict[str, int]]] = {}
+    for finding in findings:
+        grouped.setdefault(Path(finding["path"]), []).append(finding)
+    return grouped
 
 
 def redact(path: Path, findings: list[dict[str, int]]) -> None:
@@ -82,7 +91,7 @@ def main() -> int:
         if argument != "--"
     ]
     if not paths:
-        print("Usage: redact-secrets -- <file>...", file=sys.stderr)
+        print("Usage: redact-secrets -- <file|directory>...", file=sys.stderr)
         return 2
 
     for path in paths:
@@ -91,11 +100,12 @@ def main() -> int:
         if not findings:
             print(f"No secrets found in {path}", flush=True)
             continue
-        redact(path, findings)
+        for file, matches in by_file(findings).items():
+            redact(file, matches)
+            print(f"Redacted {len(matches)} occurrence(s) from {file}", flush=True)
         remaining = scan(path)
         if remaining:
             raise RuntimeError(f"Secrets remain in {path}")
-        print(f"Redacted {len(findings)} occurrence(s) from {path}", flush=True)
 
     return 0
 
