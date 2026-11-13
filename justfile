@@ -3,7 +3,8 @@ user := `whoami`
 
 droid := path_exists("/data/data/com.termux.nix")
 
-host := if droid == "true" { "phone" } else if user == "ava.silver" { "work" } else if os == "Linux" { `hostname` } else { "slate" }
+# Android UIDs are user ID * 100000 + app ID, so the work profile (user 10) has UIDs of 1000000 and up.
+host := if droid == "true" { `[ "$(id -u)" -lt 100000 ] && echo phone || echo phone-work` } else if user == "ava.silver" { "work" } else if os == "Linux" { `hostname` } else { "slate" }
 
 _rebuild := if os == "Linux" { "nixos-rebuild" } else { "darwin-rebuild" }
 

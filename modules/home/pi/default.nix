@@ -9,6 +9,8 @@ let
   profile =
     if host.work then
       "work"
+    else if host.workPhone then
+      "phone-work"
     else if host.kind == "droid" then
       "phone"
     else
@@ -88,7 +90,7 @@ in
 
   # Personal machines only: the personal settings load this provider from ~/repos.
   # Runs after `pi` so bun and the pi install exist; same idempotent, non-fatal rules.
-  home.activation.piSpotifyProvider = lib.mkIf (!host.work) (
+  home.activation.piSpotifyProvider = lib.mkIf (!host.work && !host.workPhone) (
     lib.hm.dag.entryAfter [ "pi" ] ''
       (
         export PATH=${path}:$PATH

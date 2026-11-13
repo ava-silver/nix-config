@@ -64,6 +64,11 @@
           user = "ava";
         };
         phone.kind = "droid";
+        # Nix-on-Droid in the Android work profile: work identity without the work laptop's tooling.
+        phone-work = {
+          kind = "droid";
+          workPhone = true;
+        };
       };
 
       fonts = {
@@ -111,11 +116,12 @@
           nix-on-droid.lib.nixOnDroidConfiguration {
             pkgs = import nixpkgs {
               system = "aarch64-linux";
-              overlays = overlays ++ [ (import ./hosts/${host.name}/overlay.nix inputs) ];
+              overlays = overlays ++ [ (import ./modules/droid/overlay.nix inputs) ];
             };
             extraSpecialArgs = args;
             modules = [
               ./hosts/${host.name}
+              ./modules/droid
               { home-manager.extraSpecialArgs = args; }
             ];
           };
@@ -127,6 +133,7 @@
           host = {
             inherit name;
             work = false;
+            workPhone = false;
           }
           // cfg;
         in
