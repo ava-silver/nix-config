@@ -123,7 +123,6 @@ aws-sso() {
   expand-alias "$@"
   aws-vault exec sso-serverless-sandbox-account-admin -- "${expanded_cmd[@]}"
 }
-alias aws='aws-sso /opt/homebrew/bin/aws'
 
 loop() {
   local interval=1
