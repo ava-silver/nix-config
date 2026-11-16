@@ -1,0 +1,16 @@
+{
+  "zoom": 1,
+  "sounds": {
+    "enabled": true
+  },
+  "font": "MonoLisa Nerd Font",
+  "font_size": 14,
+  "font_weight": 400,
+  "theme": "purple-contrast",
+  "appearance": "dark",
+  "font_ligatures": false,
+  "terminal_line_height": 1,
+  "terminal_cell_width": 0.9,
+  "terminal_scroll_speed": 1,
+  "minimum_contrast": 3
+}

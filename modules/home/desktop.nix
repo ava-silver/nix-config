@@ -16,6 +16,64 @@ let
       lib.getExe config.programs.hex.package;
   hexSettings = lib.importJSON ./hex/settings.json;
   hexVocabulary = lib.importJSON ./hex/vocabulary.json;
+  herdrFiles = [
+    "settings.json"
+    "keys.json"
+  ]
+  ++
+    lib.concatMap
+      (
+        dir: map (name: "${dir}/${name}") (builtins.attrNames (builtins.readDir (./herdr-app + "/${dir}")))
+      )
+      [
+        "layouts"
+        "themes"
+        "mods"
+      ];
+  herdrCore = pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
+    pname = "herdr-core";
+    version = "0.1.21";
+    src = pkgs.fetchurl {
+      url = "https://releases.herdr.dev/core/${finalAttrs.version}/herdr-core-${
+        if isDarwin then "macos-aarch64" else "linux-x86_64"
+      }.tar.gz";
+      hash =
+        if isDarwin then
+          "sha256-GrON2ScPY6j3lNbWDocC6w0chacr2oXXNeXupD8F/+0="
+        else
+          "sha256-eEJHVcEKQN3jigvbVcIKwZcG6a4F7Wj8Ks8fz/DZQcE=";
+    };
+    sourceRoot = ".";
+    # Keep the macOS bundle's signature and privacy permission identity intact.
+    dontFixup = true;
+    installPhase = ''
+      runHook preInstall
+      mkdir -p "$out/bin" "$out/share/licenses/herdr-core"
+      ${
+        if isDarwin then
+          ''
+            mkdir -p "$out/Applications"
+            cp -R "Herdr Core.app" "$out/Applications/"
+            ln -s "$out/Applications/Herdr Core.app/Contents/MacOS/herdr-core" "$out/bin/herdr-core"
+          ''
+        else
+          ''
+            cp herdr-core "$out/bin/"
+          ''
+      }
+      ln -s herdr-core "$out/bin/hc"
+      cp LICENSE THIRD-PARTY-NOTICES "$out/share/licenses/herdr-core/"
+      runHook postInstall
+    '';
+    meta = {
+      mainProgram = "hc";
+      license = lib.licenses.asl20;
+      platforms = [
+        "aarch64-darwin"
+        "x86_64-linux"
+      ];
+    };
+  });
 in
 {
   imports = [
@@ -23,25 +81,45 @@ in
     inputs.hex.homeManagerModules.hex
   ];
 
-  xdg.configFile."ghostty/config".text =
-    builtins.replaceStrings [ "@mono@" ] [ fonts.mono ] (builtins.readFile ./ghostty/config)
-    + lib.optionalString (!isDarwin) ''
+  home.packages = [ herdrCore ];
 
-      # macOS sizes are 72 dpi points, GTK's are 96 dpi, so 18 renders ~33% larger there
-      font-size = 13
+  xdg.configFile =
+    builtins.listToAttrs (
+      map (
+        name:
+        lib.nameValuePair "herdr-app/${name}" {
+          source = config.lib.file.mkOutOfStoreSymlink "${config.thisRepoDir}/modules/home/herdr-app/${name}";
+        }
+      ) herdrFiles
+    )
+    // {
+      "ghostty/config".text =
+        builtins.replaceStrings [ "@mono@" ] [ fonts.mono ] (builtins.readFile ./ghostty/config)
+        + lib.optionalString (!isDarwin) ''
 
-      keybind = ctrl+shift+z=text:\x1bZ
+          # macOS sizes are 72 dpi points, GTK's are 96 dpi, so 18 renders ~33% larger there
+          font-size = 13
 
-      # Word deletion, matching what option+backspace/delete send on macOS
-      keybind = ctrl+backspace=text:\x1b\x7f
-      keybind = ctrl+delete=text:\x1bd
-    '';
+          keybind = ctrl+shift+z=text:\x1bZ
 
-  # Out-of-store so settings changed in Zed write back to the repo.
-  xdg.configFile."zed/settings.json".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.thisRepoDir}/modules/home/zed/settings.json";
-  xdg.configFile."zed/keymap.json".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.thisRepoDir}/modules/home/zed/keymap.json";
+          # Word deletion, matching what option+backspace/delete send on macOS
+          keybind = ctrl+backspace=text:\x1b\x7f
+          keybind = ctrl+delete=text:\x1bd
+        '';
+
+      # Out-of-store so settings changed in Zed write back to the repo.
+      "zed/settings.json".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.thisRepoDir}/modules/home/zed/settings.json";
+      "zed/keymap.json".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.thisRepoDir}/modules/home/zed/keymap.json";
+    };
+
+  home.activation.herdrLayout = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    if [[ ! -e "${config.xdg.configHome}/herdr-app/shared.json" ]]; then
+      run install -Dm644 ${pkgs.writeText "herdr-shared.json" ''{"layout":"islands"}''} \
+        "${config.xdg.configHome}/herdr-app/shared.json"
+    fi
+  '';
 
   # Hex rejects symlinks that resolve outside its config folder, so copy instead of linking.
   home.activation.hexConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''

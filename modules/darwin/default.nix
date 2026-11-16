@@ -53,6 +53,7 @@
       "docker"
     ];
     casks = [
+      "herdr-app"
       "ghostty"
       "linearmouse"
       "zed"
