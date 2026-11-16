@@ -10,7 +10,7 @@ This directory (`~/go/src/github.com/DataDog` or `~/dd`) holds clones of DataDog
 - Serverless tooling repositories (IaC, CLI, and tracer libraries): Load the `repos` skill to map a repository to its team and purpose.
 - `experimental/`: A shared Datadog repository for prototypes, demos, and one-off scripts worth committing and sharing. Put my work in `experimental/users/ava.silver/<project>/` and team-wide utilities in `experimental/teams/serverless/`. Production-quality standards don't apply.
 - `serverless-ci/`: Internal glue for Serverless open source repositories. It holds GitLab CI config for public repositories, Campaigner campaigns that open PRs across repositories, the Lambda layer catalog, E2E tests, and shared scripts.
-- `~/nix-config`: My Nix config (nix-darwin and home-manager), including this file at `modules/home/pi/work/dd-AGENTS.md`. Apply changes with `just switch`.
+- `~/nix-config`: My Nix config (nix-darwin and home-manager). Non-symlinked config updates can be applied with `just switch`.
 - `~/.pi/agent`: My pi config (extensions, skills, prompts, and global `AGENTS.md`). Apply changes with `/reload`. `settings.json` is a symlink; edit `~/nix-config/modules/home/pi/work/settings.json` instead.
 - Other repositories (`dd-source`, `dogweb`, `web-ui`, `datadog-agent`, and so on) are mostly monorepos owned by other teams; Serverless contributes to specific paths.
 

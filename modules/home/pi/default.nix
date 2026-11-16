@@ -40,7 +40,7 @@ in
   # Pi loads AGENTS.md from parent directories, so this applies to every work repo.
   # Uses the real path because ~/dd is a symlink to it.
   home.file."go/src/github.com/DataDog/AGENTS.md" = lib.mkIf host.work {
-    source = ./work/dd-AGENTS.md;
+    source = config.lib.file.mkOutOfStoreSymlink "${config.thisRepoDir}/modules/home/pi/work/dd-AGENTS.md";
   };
 
   # Makes `pi update` bump the pinned version and rebuild the binary.
