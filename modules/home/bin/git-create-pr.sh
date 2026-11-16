@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+PATH="@nixPath@:$PATH"
 set -euo pipefail
 if ! is-graphite -q; then
   slug=$(printf '%s' "$*" \

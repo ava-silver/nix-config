@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+PATH="@nixPath@:$PATH"
 if [ $# -eq 0 ]; then
   msg=$(gum input --placeholder 'Summary of this change')
 else

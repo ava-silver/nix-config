@@ -100,10 +100,10 @@
     settings.alias = {
       a = "add -A";
       b = "branch";
-      c = "!git-ticket-commit";
+      c = "!${config.home.profileDirectory}/bin/git-ticket-commit";
       nb = "checkout -b";
       ac = ''!f() { git a && git c "$@"; }; f'';
-      cr = "!git-create-pr";
+      cr = "!${config.home.profileDirectory}/bin/git-create-pr";
       pr = "!gh pr view --web";
       cc = ''!git commit -m "updated $(date)"'';
       m = "merge --no-edit";

@@ -9,6 +9,8 @@ let
   # Scripts that need a Nix store path use @varname@ as a placeholder.
   subs = {
     "@gh@" = "${pkgs.gh}";
+    # Herdr-spawned agents can inherit a PATH without the Nix profiles.
+    "@nixPath@" = "${config.home.profileDirectory}/bin:/run/current-system/sw/bin";
     "@redactSecretsRules@" = "${pkgs.writeText "redact-secrets-rules.yml" (
       builtins.readFile ./bin/work/redact-secrets/rules.yml
     )}";
