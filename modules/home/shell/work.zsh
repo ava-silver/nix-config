@@ -1,8 +1,7 @@
 #!/usr/bin/env zsh
 
-# The IT block's `brew shellenv` runs path_helper, which moves Homebrew ahead of Nix and Volta.
-typeset -U path
-path=($HOME/.nix-profile/bin $VOLTA_HOME/bin /run/current-system/sw/bin $path)
+# The IT block's `brew shellenv` puts Homebrew first, so move these back ahead of it.
+path=($_path_first $path)
 path+=($HOME/dd/eclair-scripts/bin $HOME/dd/eclair-scripts/azure/bin)
 
 export AWS_PROFILE=sso-serverless-sandbox-account-admin

@@ -43,9 +43,6 @@ in
     source = ./work/dd-AGENTS.md;
   };
 
-  # The binary runs from a fixed path so allowlists can name ~/.pi/bin/pi.
-  home.sessionPath = [ "$HOME/.pi/bin" ];
-
   # Makes `pi update` bump the pinned version and rebuild the binary.
   home.sessionVariables.PI_SELF_UPDATE_COMMAND = "${piInstall}/bin/pi-install {version}";
 

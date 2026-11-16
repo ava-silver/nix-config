@@ -1,9 +1,6 @@
 #!/usr/bin/env zsh
 
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$PATH:$BUN_INSTALL/bin"
-export PATH="$PATH:$HOME/.local/bin"
-[[ ! -d $HOME/.cargo/bin ]] || path+=($HOME/.cargo/bin)
 
 export LANG="en_US.UTF-8"
 export EDITOR="zed --wait"
@@ -19,7 +16,6 @@ export FFF_ENABLE_HOME_SCAN=0
 if [[ $OSTYPE == darwin* ]]; then
   alias xclip=pbcopy
   export HOMEBREW_NO_ENV_HINTS=1
-  export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
   alias brewi="brew update && brew install"
   alias brewr="brew uninstall"
   alias brewu='brew update && brew upgrade --greedy -y'

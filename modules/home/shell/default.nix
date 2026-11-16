@@ -5,6 +5,28 @@
   host,
   ...
 }:
+let
+  pathFirst = [
+    # Pi installs to a fixed path so allowlists can name ~/.pi/bin/pi.
+    "$HOME/.pi/bin"
+    "${config.home.profileDirectory}/bin"
+  ]
+  ++ lib.optionals host.work [
+    "$HOME/.volta/bin"
+    "$HOME/.yarn/switch/bin"
+  ]
+  ++ [
+    "/run/current-system/sw/bin"
+    "/nix/var/nix/profiles/default/bin"
+  ]
+  ++ lib.optional pkgs.stdenv.isDarwin "$HOME/Library/Android/sdk/platform-tools";
+
+  pathLast = [
+    "$HOME/.local/bin"
+    "$HOME/.bun/bin"
+    "$HOME/.cargo/bin"
+  ];
+in
 {
   programs.zsh = {
     enable = true;
@@ -51,10 +73,16 @@
       }
     ];
 
-    envExtra = lib.mkIf host.work ''
+    # A parent can pass on the "already sourced" guards without the PATH they built,
+    # so add what's missing. Existing entries keep their place to preserve overrides.
+    envExtra = ''
+      typeset -U path
+      _path_first=(${toString pathFirst})
+      _path_last=(${toString pathLast})
+      path=(''${_path_first:|path} $path ''${_path_last:|path})
+    ''
+    + lib.optionalString host.work ''
       export VOLTA_HOME="$HOME/.volta"
-      export PATH="$VOLTA_HOME/bin:$HOME/.yarn/switch/bin:$PATH:$HOME/.local/bin"
-      [[ ! -f $HOME/.cargo/env ]] || . "$HOME/.cargo/env"
     '';
 
     profileExtra = lib.mkIf host.work ''
