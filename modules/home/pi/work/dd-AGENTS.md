@@ -14,6 +14,10 @@ This directory (`~/go/src/github.com/DataDog` or `~/dd`) holds clones of DataDog
 - `~/.pi/agent`: My pi config (extensions, skills, prompts, and global `AGENTS.md`). Apply changes with `/reload`. `settings.json` is a symlink; edit `~/nix-config/modules/home/pi/work/settings.json` instead.
 - Other repositories (`dd-source`, `dogweb`, `web-ui`, `datadog-agent`, and so on) are mostly monorepos owned by other teams; Serverless contributes to specific paths.
 
+## CI
+
+- The `devflow/mergegate` check stays pending until a PR has approving reviews. Don't wait on it or report it as a failure, especially on draft PRs.
+
 ## AWS auth
 
 - Run commands needing AWS auth through `aws-sso-exec` (for example, `aws-sso-exec aws sts get-caller-identity`; default profile: `sso-serverless-sandbox-account-admin`). It uses native AWS SSO and opens a browser for the user to auth only when required.

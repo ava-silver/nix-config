@@ -12,4 +12,8 @@ The layout and six mods come from [CodeyPacker's Islands](https://github.com/Cod
 
 A sub-agent (a terminal another agent started with `hc run`) belongs to that agent, which starts and stops it. In the Islands layout, closing a sub-agent sends it back under its parent (`terminal.park`) instead of ending it: the tab and pane **X** buttons, **cmd-w**, **cmd-shift-w**, and the tab's **Close** menu item. A sub-agent pane's right-click menu offers **Send back** without **Close pane**. `islands-menu` is a copy of Herdr's `menu` mod with these changes; it does not receive Herdr's updates.
 
+## Side terminal
+
+**cmd-r** shows or hides a shell split to the right of the shown tab (`side-term`). Each space has one shell. Hiding parks it (`terminal.park`), so it reappears instantly with its history. Parking and showing resize the shell, which leaves copies of a multi-line prompt behind, so showing it presses **ctrl-l** once the size settles, unless another program runs in it. Closing its pane ends the shell, and the next **cmd-r** starts a new one.
+
 Validate a mod with `herdr-app check ~/.config/herdr-app/mods/<name>`.

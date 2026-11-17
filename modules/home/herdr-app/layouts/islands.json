@@ -148,14 +148,19 @@
                       "id": "files",
                       "type": "block",
                       "content": {
-                        "mod": "files"
+                        "mod": "pierre-tree-files"
                       }
                     },
                     {
                       "id": "changes",
                       "type": "block",
                       "content": {
-                        "mod": "changes"
+                        "mod": "gitview",
+                        "props": {
+                          "replaces": {
+                            "mod": "changes"
+                          }
+                        }
                       }
                     }
                   ],
