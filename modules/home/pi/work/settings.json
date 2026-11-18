@@ -14,7 +14,7 @@
     "+find",
     "+codemode"
   ],
-  "hideThinkingBlock": false,
+  "hideThinkingBlock": true,
   "packages": [
     "npm:pi-btw",
     "npm:pi-session-auto-rename",
