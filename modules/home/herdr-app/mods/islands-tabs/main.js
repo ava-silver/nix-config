@@ -35,12 +35,14 @@ function find(node, id) {
 }
 
 const clean = (s) => (s ?? "").replace(/^[^\p{L}\p{N}\p{Ps}\p{Pi}]+/u, "").replace(/^\[ [!.] \] /, "").trim();
+// pi titles read "π - <session name> - <folder>"; the session name says the most.
+const piTitle = (s) => s.match(/^π - (.+) - [^/]+$/)?.[1] ?? s;
 
 function label(tab, lead) {
   const prog = lead?.program?.name;
   const base = tab.named ? tab.name : prog ?? "Terminal";
   if (!lead?.program?.agent) return base;
-  const live = clean(lead.title);
+  const live = piTitle(clean(lead.title));
   const path = /^[~/]|^[A-Za-z]:\\/.test((lead.title ?? "").replace(/^[^\p{L}\p{N}~/]+/u, ""));
   const telling = live && live !== lead.terminal && live !== prog && !path && !live.includes("@") && live.toLowerCase() !== lead.program.key;
   return (tab.name === prog || !tab.named) && telling ? live : base;

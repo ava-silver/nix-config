@@ -11,7 +11,8 @@
   "quietStartup": true,
   "defaultTools": [
     "+grep",
-    "+find"
+    "+find",
+    "+codemode"
   ],
   "hideThinkingBlock": false,
   "packages": [
@@ -35,16 +36,23 @@
   "enabledModels": [
     "anthropic/claude-opus-5-5",
     "anthropic/claude-sonnet-5-5",
-    "openai-codex/gpt-6.1-sol",
     "baseten/deepseek-v4-1-flash",
     "openai-codex/gpt-6-luna",
     "google/gemini-4-argon",
-    "openai/openai/gpt-6-astra"
+    "openai-codex/gpt-6.1-sol",
+    "openai-codex/gpt-6-astra"
   ],
   "showCacheMissNotices": true,
   "collapseChangelog": true,
   "compaction": {
     "enabled": true
   },
-  "steeringMode": "all"
+  "steeringMode": "all",
+  "extensionChangelogVersions": {
+    "{\"source\":\"npm:pi-subagents\",\"scope\":\"project\"}": "0.89.0",
+    "{\"source\":\"npm:pi-web-access\",\"scope\":\"project\"}": "0.48.0",
+    "{\"source\":\"npm:visual-explainer\",\"scope\":\"project\"}": "0.15.0",
+    "{\"source\":\"npm:pi-messenger\",\"scope\":\"project\"}": "0.15.2",
+    "{\"source\":\"npm:pi-powerline-footer\",\"scope\":\"project\"}": "0.22.0"
+  }
 }

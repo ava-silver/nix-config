@@ -30,9 +30,20 @@ tmp=$(mktemp -d "$(dirname "$root")/.pi-install.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
 out="$tmp/pi"
 
-(cd "$pkg" && bun build --compile --bytecode --format esm \
+# The binary loads its workers from the source paths of Pi's release build, which the npm package
+# lacks, so a copy of the package gets shims at those paths. The node_modules link keeps
+# dependencies resolvable from the copy.
+build="$tmp/build/pkg"
+mkdir "$tmp/build"
+cp -R "$pkg" "$build"
+ln -s "$modules" "$tmp/build/node_modules"
+mkdir -p "$build/src/utils" "$build/src/extensions/codemode"
+echo 'import "../../dist/utils/image-resize-worker.js";' >"$build/src/utils/image-resize-worker.ts"
+echo 'import "../../../dist/extensions/codemode/worker.js";' >"$build/src/extensions/codemode/worker.ts"
+
+(cd "$build" && bun build --compile --bytecode --format esm \
   --no-compile-autoload-bunfig --no-compile-autoload-dotenv \
-  ./dist/bun/cli.js ./dist/utils/image-resize-worker.js ./dist/extensions/codemode/worker.js \
+  ./dist/bun/cli.js ./src/utils/image-resize-worker.ts ./src/extensions/codemode/worker.ts \
   --outfile "$out/pi")
 
 # The assets the binary reads from its own directory. This mirrors Pi's release build, which differs

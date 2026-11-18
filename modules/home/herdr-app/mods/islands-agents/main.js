@@ -34,6 +34,8 @@ function toggleSidebar() {
 }
 
 const clean = (s) => (s ?? "").replace(/^[^\p{L}\p{N}]+/u, "").trim();
+// pi titles read "π - <session name> - <folder>"; the session name says the most.
+const piTitle = (s) => s.match(/^π - (.+) - [^/]+$/)?.[1] ?? s;
 
 function leadPanes(all) {
   const leads = new Map();
@@ -48,7 +50,7 @@ function leadPanes(all) {
 
 function title(tab, l) {
   const prog = l?.program?.name;
-  const live = clean(l?.title);
+  const live = piTitle(clean(l?.title));
   const telling = live && live !== prog && !/^[~/]|^[A-Za-z]:\\/.test(live) && !live.includes("@") && live.toLowerCase() !== l?.program?.key;
   return (tab.name === prog || !tab.named) && telling ? live : tab.name;
 }
@@ -212,7 +214,7 @@ export default class Agents extends View {
         .when(Boolean(l), el => el.border_l(1.5).border_color(t.input))
         .when(l === "└" || l === "├", el => el.border_b(1.5).rounded_bl(6))))
       .when(Boolean(pic), el => el.child(div().mr(8).child(pic)))
-      .child(div().flex_1().truncate().text_color(on ? t.foreground : t.muted).child(k.name || k.template || k.program?.name || k.address))
+      .child(div().flex_1().truncate().text_color(on ? t.foreground : t.muted).child((k.program?.agent && piTitle(clean(k.title))) || k.name || k.template || k.program?.name || k.address))
       .child(this.status(t, { status: st }, compact));
   }
 
