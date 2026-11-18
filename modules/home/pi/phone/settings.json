@@ -16,7 +16,8 @@
   "hideThinkingBlock": false,
   "packages": [
     "npm:pi-btw",
-    "~/repos/pi-spotify-provider"
+    "~/repos/pi-spotify-provider",
+    "git:github.com/johnlindquist/pi-emphasis"
   ],
   "extensions": [
     "-extensions/slack-mcp/index.ts",

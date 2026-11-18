@@ -19,7 +19,7 @@ let
     "/run/current-system/sw/bin"
     "/nix/var/nix/profiles/default/bin"
   ]
-  ++ lib.optional pkgs.stdenv.isDarwin "$HOME/Library/Android/sdk/platform-tools";
+  ++ lib.optional pkgs.stdenv.hostPlatform.isDarwin "$HOME/Library/Android/sdk/platform-tools";
 
   pathLast = [
     "$HOME/.local/bin"
