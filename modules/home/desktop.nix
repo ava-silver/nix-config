@@ -81,7 +81,7 @@ in
     inputs.hex.homeManagerModules.hex
   ];
 
-  home.packages = [ herdrCore ];
+  home.packages = [ herdrCore ] ++ lib.optionals isDarwin [ pkgs.terminal-notifier ];
 
   xdg.configFile =
     builtins.listToAttrs (
@@ -113,6 +113,13 @@ in
       "zed/keymap.json".source =
         config.lib.file.mkOutOfStoreSymlink "${config.thisRepoDir}/modules/home/zed/keymap.json";
     };
+
+  home.activation.herdrNotifications = lib.mkIf isDarwin (
+    lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      run /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister \
+        -f "${pkgs.terminal-notifier}/Applications/terminal-notifier.app"
+    ''
+  );
 
   home.activation.herdrLayout = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
     if [[ ! -e "${config.xdg.configHome}/herdr-app/shared.json" ]]; then

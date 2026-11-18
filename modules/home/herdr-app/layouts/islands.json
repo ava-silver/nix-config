@@ -212,5 +212,6 @@
     23
   ],
   "preview": "layouts/islands.svg",
-  "terminal_menu": "islands-menu"
+  "terminal_menu": "islands-menu",
+  "toast": "islands-toast"
 }
