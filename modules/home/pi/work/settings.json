@@ -39,8 +39,8 @@
     "baseten/deepseek-v4-1-flash",
     "openai-codex/gpt-6-luna",
     "google/gemini-4-argon",
-    "openai-codex/gpt-6.1-sol",
-    "openai-codex/gpt-6-astra"
+    "openai-codex/gpt-6-astra",
+    "openai-codex/gpt-6.2-sol"
   ],
   "showCacheMissNotices": true,
   "collapseChangelog": true,
