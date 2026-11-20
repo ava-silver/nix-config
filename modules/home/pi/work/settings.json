@@ -5,14 +5,13 @@
   "warnings": {
     "anthropicExtraUsage": false
   },
-  "lastChangelogVersion": "1.5.2",
+  "lastChangelogVersion": "1.6.0",
   "theme": "catppuccin-frappe",
   "defaultThinkingLevel": "high",
   "quietStartup": true,
   "defaultTools": [
     "+grep",
-    "+find",
-    "+codemode"
+    "+find"
   ],
   "hideThinkingBlock": true,
   "packages": [
@@ -38,9 +37,10 @@
     "anthropic/claude-sonnet-5-5",
     "baseten/deepseek-v4-1-flash",
     "openai-codex/gpt-6-luna",
-    "google/gemini-4-argon",
     "openai-codex/gpt-6-astra",
-    "openai-codex/gpt-6.2-sol"
+    "google/gemini-4-neon",
+    "google/gemini-4-carbon",
+    "openai-codex/gpt-6.1-sol"
   ],
   "showCacheMissNotices": true,
   "collapseChangelog": true,

@@ -3,7 +3,7 @@
 This directory (`~/go/src/github.com/DataDog` or `~/dd`) holds clones of DataDog repositories. Each subdirectory is its own git repository; `<repo>.worktrees/` directories hold that repository's worktrees.
 
 - When a task needs a DataDog-owned repository that isn't here, clone it into this directory using `gh`.
-- For work inside a specific repository, spawn a subagent with `working_dir` set to that repository (or its worktree), not this directory. The subagent then loads the repository's `AGENTS.md` and repository context, such as visibility and CI.
+- For substantial or multi-step work inside a specific repository, consider spawning a subagent with `working_dir` set to that repository (or its worktree) so it loads that repository's `AGENTS.md` and context (visibility, CI, etc.). For quick lookups or small edits, working directly and reading the repository's `AGENTS.md` as needed is fine.
 
 ## Repositories
 
