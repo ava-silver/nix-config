@@ -189,11 +189,8 @@ in
         betterUploadButton.enable = true;
         clientTheme.enable = true;
         experiments.enable = true;
-        fixSpotifyEmbeds.enable = true;
-        fixYoutubeEmbeds.enable = true;
         noTrack.enable = true;
         openInApp.enable = true;
-        petpet.enable = true;
         readAllNotificationsButton.enable = true;
         relationshipNotifier.enable = true;
         serverInfo.enable = true;
