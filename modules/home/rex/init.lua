@@ -1,0 +1,1 @@
+-- Rex key bindings. See `rex config --help`.
