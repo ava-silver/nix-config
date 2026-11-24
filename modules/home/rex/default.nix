@@ -12,6 +12,10 @@ in
   xdg.configFile."rex/init.lua".source =
     config.lib.file.mkOutOfStoreSymlink "${config.thisRepoDir}/modules/home/rex/init.lua";
 
+  programs.zsh.initContent = ''
+    [[ -z $REX_BIN_DIR ]] || path=("$REX_BIN_DIR" $path)
+  '';
+
   # Rex keeps themes in its preferences, not a config file, so write the theme there and select it for dark mode.
   home.activation.rexTheme = lib.mkIf isDarwin (
     lib.hm.dag.entryAfter [ "writeBoundary" ] ''
