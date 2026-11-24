@@ -46,8 +46,6 @@ in
   # Makes `pi update` bump the pinned version and rebuild the binary.
   home.sessionVariables = {
     PI_SELF_UPDATE_COMMAND = "${piInstall}/bin/pi-install {version}";
-    # Reply-style rules live in pi-config's AGENTS.md; pi-emphasis's built-in copy costs ~1,500 tokens.
-    PI_EMPHASIS_GUIDANCE = "0";
   };
 
   # Idempotent and non-fatal: if offline, run `just switch` again once connected.

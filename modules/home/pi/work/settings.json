@@ -17,8 +17,7 @@
   "packages": [
     "npm:pi-btw",
     "npm:pi-session-auto-rename",
-    "~/go/src/github.com/DataDog/datadog-pi-packages/packages/dd-ai-gateway",
-    "git:github.com/johnlindquist/pi-emphasis"
+    "~/go/src/github.com/DataDog/datadog-pi-packages/packages/dd-ai-gateway"
   ],
   "extensions": [
     "-extensions/phone-notify.ts",

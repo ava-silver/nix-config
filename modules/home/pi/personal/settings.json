@@ -17,8 +17,7 @@
   "packages": [
     "npm:pi-btw",
     "npm:pi-session-auto-rename",
-    "~/repos/pi-spotify-provider",
-    "git:github.com/johnlindquist/pi-emphasis"
+    "~/repos/pi-spotify-provider"
   ],
   "extensions": [
     "-extensions/phone-notify.ts",
