@@ -4,6 +4,10 @@
     pkgs.openssh
     pkgs.termux-am
     pkgs.termux-api
+    pkgs.jdk17
+    pkgs.kotlin
+    pkgs.junit_4
+    pkgs.java-hamcrest
   ];
 
   system.stateVersion = "24.05";
