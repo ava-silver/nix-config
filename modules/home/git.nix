@@ -65,6 +65,7 @@
       };
     };
 
+    settings.diff.algorithm = "histogram";
     settings.init.defaultBranch = "main";
     settings.push.autoSetupRemote = true;
     settings.rerere = {

@@ -25,9 +25,12 @@ in
     "flakes"
   ];
 
-  nix.gc = {
-    automatic = true;
-    options = "--delete-older-than 7d";
+  programs.nh = {
+    enable = true;
+    clean = {
+      enable = true;
+      extraArgs = "--keep 5 --keep-since 7d";
+    };
   };
   nix.optimise.automatic = true;
 

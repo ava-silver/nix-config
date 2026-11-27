@@ -14,8 +14,8 @@
 
   nixpkgs.config.allowUnfreePredicate = pkg: lib.getName pkg == "discord";
 
-  # Daily rather than the weekly default, so --delete-older-than 7d really means about 7 days.
-  nix.gc.interval = {
+  # Daily rather than the weekly default, so --keep-since 7d really means about 7 days.
+  programs.nh.clean.interval = {
     Hour = 3;
     Minute = 15;
   };

@@ -71,6 +71,12 @@
         mono = "MonoLisa Nerd Font";
       };
 
+      forAllSystems =
+        f:
+        nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ] (
+          system: f nixpkgs.legacyPackages.${system}
+        );
+
       overlays = [ nix-bun.overlays.default ];
       lixOverlay = lix-module.overlays.lixFromNixpkgs;
 
@@ -135,6 +141,8 @@
       ofKind = kind: nixpkgs.lib.filterAttrs (_: host: host.kind == kind) hosts;
     in
     {
+      formatter = forAllSystems (pkgs: pkgs.nixfmt-tree);
+
       darwinConfigurations = builtins.mapAttrs mkHost (ofKind "darwin");
       nixosConfigurations = builtins.mapAttrs mkHost (ofKind "nixos");
       nixOnDroidConfigurations = builtins.mapAttrs mkHost (ofKind "droid");

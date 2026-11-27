@@ -5,13 +5,11 @@ droid := path_exists("/data/data/com.termux.nix")
 
 host := if droid == "true" { "phone" } else if user == "ava.silver" { "work" } else if os == "Linux" { `hostname` } else { "slate" }
 
-_rebuild := if os == "Linux" { "nixos-rebuild" } else { "darwin-rebuild" }
-
-# Nix-on-Droid has no sudo and its own switch command.
-_switch := if droid == "true" { "nix-on-droid switch" } else { "sudo " + _rebuild + " switch" }
+# nh has no Nix-on-Droid support.
+_switch := if droid == "true" { "nix-on-droid switch --flake .#" + host } else if os == "Linux" { "nh os switch -H " + host + " ." } else { "nh darwin switch -H " + host + " ." }
 
 switch: && _hooks _restart-apps
-    {{ _switch }} --flake .#{{ host }}
+    {{ _switch }}
 
 # Runs after the switch so prek exists on a fresh machine. --force: see install-hooks in rc.zsh.
 _hooks:

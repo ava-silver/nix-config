@@ -47,6 +47,9 @@
 
   programs.zsh.enable = true;
 
+  # Daily rather than the weekly default, so --keep-since 7d really means about 7 days.
+  programs.nh.clean.dates = "daily";
+
   # Lets prebuilt binaries (uv Pythons, rustup, Android SDK, bun packages) run.
   programs.nix-ld.enable = true;
 
